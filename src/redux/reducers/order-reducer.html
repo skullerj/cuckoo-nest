@@ -1,0 +1,24 @@
+<script>
+  const order = (state={
+    phone:null,
+    selectedItems:{
+
+    },
+    location:{
+      lat:null,
+      lon:null,
+      name:null,
+      instructions:null
+    },
+    status:'new',
+    id:null
+  },action)=>{
+    switch (action) {
+      case 'SET_PHONE':
+        return Object.assign({},state,{phone:action.phone});
+        break;
+      default:
+        return state;
+    }
+  }
+</script>

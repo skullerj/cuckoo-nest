@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="start-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      div.initial{
+        height: 100%;
+        padding: 10px;
+        background-color: var(--primary-color);
+        @apply --layout-vertical;
+
+      }
+      h1{
+        font-family: 'Roboto', sans-serif;
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+        font-size: 56px;
+        font-weight: 400;
+        letter-spacing: -.026em;
+        line-height: 60px;
+      }
+      h2{
+
+      }
+      input{
+        background-color : #fff;
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 100%;
+        padding-right: 16px;
+        padding-left: 20px;
+        line-height: 40px;
+        border: none;
+        margin: 0;
+        font-size: 16px;
+        -webkit-appearance: none;
+        text-align: center;
+        color: var(--primary-text-color);
+      }
+    </style>
+    <div class="initial">
+      <h1>Haz que te <b>rinda</b>  la vaca... </h1>
+      <input placeholder="Número de Celular" type="text" class="m2-y">
+      <paper-button raised class="accent self-center" on-tap="nextPage">
+        <span>Yaff... Chupemos</span>
+        <iron-icon icon="custom:chevron-right"></iron-icon>
+      </paper-button>
+      <div class="flex"></div>
+      <span>*Entrega gratuita en el Norte de Quito!</span>
+    </div>
+  </template>
+
+  <script>
+    class StartView extends GAMixin(ReduxMixin(Polymer.Element)) {
+      static get is() { return 'start-view'; }
+      nextPage(){
+        redirect('items');
+      }
+    }
+
+    window.customElements.define(StartView.is, StartView);
+  </script>
+</dom-module>

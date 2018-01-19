@@ -1,0 +1,90 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<dom-module id="item-card">
+  <template>
+    <style>
+      :host{
+        display: block;
+        color:
+      }
+      div.main{
+        height: 150px;
+        background-color: white;
+        @apply --shadow-elevation-2dp;
+        @apply --layout-horizontal;
+
+      }
+      div.image{
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 150px;
+        width: 84px;
+      }
+      div.info-outer{
+        background-color: var(--secondary-color);
+        color: var(--secondary-text-color);
+        @apply --layout-flex;
+        @apply --layout-vertical;
+      }
+      div.info{
+        @apply --layout-vertical;
+        @apply --layout-flex;
+        padding:12px;
+      }
+      div.controls{
+        height: 50px;
+        width: 100%;
+        border-top: 1px solid rgba(255,255,255,0.3);
+        color: var(--secondary-text-color);
+        @apply --layout-horizontal;
+      }
+      paper-icon-button{
+
+      }
+      span.name{
+        @apply --paper-font-title;
+      }
+      span.type{
+        @apply --paper-font-caption;
+      }
+      span.price{
+        @apply --paper-font-subhead;
+      }
+    </style>
+    <div class="main">
+      <div class="info-outer">
+        <div class="info">
+          <span class="type">Aguardiente 32%</span>
+          <span class="name">[[item.name]]</span>
+          <span class="price">$ [[item.price]]</span>
+        </div>
+        <div class="controls">
+          <paper-icon-button icon="custom:add-circle"></paper-icon-button>
+          <paper-icon-button icon="custom:remove-circle"></paper-icon-button>
+        </div>
+      </div>
+      <div class="image"></div>
+    </div>
+  </template>
+  <script>
+    class ItemCard extends Polymer.Element {
+      static get is(){
+        return 'item-card';
+      }
+      static get properties(){
+        return {
+          item:{
+            type:Object
+          }
+        }
+      }
+      static get observers(){
+        return ['_watchPhoto(item.photoUrl)']
+      }
+      _watchPhoto(photo){
+        this.shadowRoot.querySelector('.image').style.backgroundImage=`url('${photo}')`;
+      }
+    }
+    customElements.define(ItemCard.is,ItemCard);
+  </script>
+</dom-module>

@@ -1,0 +1,133 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="../shared-styles.html">
+
+<link rel="import" href="../elements/item-card.html">
+
+<dom-module id="items-view">
+  <template>
+    <style include="shared-styles app-grid-style">
+      :host {
+        display: block;
+        --app-grid-columns: 1;
+        --app-grid-gutter: 12px;
+        --app-grid-expandible-item-columns: 2;
+      }
+      div.nav{
+        height: 64px;
+        width: 100%;
+        background-color: var(--light-primary-color);
+      }
+      div.outer-items{
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        padding-bottom: 64px;
+      }
+      span.b-price{
+        @apply --paper-font-title;
+      }
+      span.b-subprice{
+        @apply --paper-font-caption;
+      }
+    </style>
+    <span class="font-title">Arma tu pedido</span>
+    <div class="outer-items app-grid">
+      <template is="dom-repeat" items="[[items]]" class="flex">
+        <item-card item="[[item]]"> </item-card>
+      </template>
+    </div>
+    <div class="bottom">
+      <paper-icon-button icon="custom:chevron-left" class="self-center m1-r"></paper-icon-button>
+      <div class="vertical flex">
+        <span class="b-price">$22,55</span>
+        <span class="">4 botellas</span>
+      </div>
+      <paper-button class="self-center" on-tap="nextPage">
+        <span>Yaff.. sigamos</span>
+        <iron-icon icon="custom:chevron-right"></iron-icon>
+      </paper-button>
+    </div>
+  </template>
+
+  <script>
+    class ItemsView extends Polymer.Element {
+      static get is() { return 'items-view'; }
+      static get properties(){
+        return {
+          items:{
+            type:Array,
+            value:()=>{
+              return [
+                {
+                  id:'1',
+                  name:'Norteño (750ml)',
+                  price:'7,50',
+                  photoUrl:'http://www.licoram.com/wp-content/uploads/2015/08/norteno_750-min.png'
+                },
+                {
+                  id:'2',
+                  name:'Norteño (375ml)',
+                  price:'3,50',
+                  photoUrl:'http://nortenolicor.com/wp-content/uploads/2015/08/Siempre-galan-y-con-estilo.png'
+                },
+                {
+                  id:'3',
+                  name:'Antioqueño',
+                  price:'7,50',
+                  photoUrl:'http://www.correodelanoche.com/content/images/thumbs/0000098_aguardiente-antioqueno-azul-sin-azucar-750-cc_550.png'
+                },
+                {
+                  id:'4',
+                  name:'Antioqueño',
+                  price:'16',
+                  photoUrl:'https://http2.mlstatic.com/agua-ardiente-antioqueno-750ml-D_NQ_NP_903078-MEC25540494439_042017-O.jpg'
+                },
+                {
+                  id:'3',
+                  name:'Antioqueño',
+                  price:'16',
+                  photoUrl:'http://www.correodelanoche.com/content/images/thumbs/0000098_aguardiente-antioqueno-azul-sin-azucar-750-cc_550.png'
+                },
+                {
+                  id:'3',
+                  name:'Antioqueño',
+                  price:'16',
+                  photoUrl:'http://www.correodelanoche.com/content/images/thumbs/0000098_aguardiente-antioqueno-azul-sin-azucar-750-cc_550.png'
+                },
+                {
+                  id:'2',
+                  name:'Norteño (375ml)',
+                  price:'3,50',
+                  photoUrl:'http://nortenolicor.com/wp-content/uploads/2015/08/Siempre-galan-y-con-estilo.png'
+                },
+                {
+                  id:'2',
+                  name:'Norteño (375ml)',
+                  price:'3,50',
+                  photoUrl:'http://nortenolicor.com/wp-content/uploads/2015/08/Siempre-galan-y-con-estilo.png'
+                }
+
+              ]
+            }
+          }
+        }
+      }
+      nextPage(){
+        redirect('/location');
+      }
+    }
+
+    window.customElements.define(ItemsView.is, ItemsView);
+  </script>
+</dom-module>

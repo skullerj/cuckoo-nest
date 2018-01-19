@@ -1,0 +1,58 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="location-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      div.outer{
+        @apply --layout-vertical;
+        height: calc(100vh - 64px);
+        width: 100%;
+      }
+      google-map{
+        width: 100%;
+      }
+      div.title{
+        padding: 10px;
+      }
+    </style>
+    <div class="outer">
+      <div class="title">
+        <span>Dónde entregamos?</span>
+      </div>
+      <google-map class="flex"></google-map>
+      <div class="bottom">
+        <div class="vertical flex">
+          <span class="b-price">$22,55</span>
+          <span class="">4 botellas</span>
+        </div>
+        <paper-button class="self-center" on-tap="nextPage">
+          <span>Yaff.. pidamos</span>
+          <iron-icon icon="custom:chevron-right"></iron-icon>
+        </paper-button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    class LocationView extends Polymer.Element {
+      static get is() { return 'location-view'; }
+    }
+
+    window.customElements.define(LocationView.is, LocationView);
+  </script>
+</dom-module>
