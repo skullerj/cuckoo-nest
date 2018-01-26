@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="my-icons.html">
 <link rel="import" href="redux/global-store.html">
 
-<link rel="import" href="views/start-view.html">
+<link rel="import" href="views/promo-view.html">
 
 <link rel="lazy-import" href="views/confirmation-view.html">
 <link rel="lazy-import" href="views/items-view.html">
@@ -90,6 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="notfound"
             role="main">
+          <promo-view name="promo"></promo-view>
           <start-view name="start"></start-view>
           <items-view name="items"></items-view>
           <location-view name="location"></location-view>
@@ -129,13 +130,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _routePageChanged(page) {
         // If no page was found in the route data, page will be an empty string.
         // Default to 'view1' in that case.
-        this.page = page || 'start';
+        this.page = page || 'promo';
 
       }
 
       _pageChanged(page) {
         this.dispatch('changePage',page);
-        if(page==='start'){
+        if(page==='promo'){
           return;
         }
         // Load page import on demand. Show 404 page if fails

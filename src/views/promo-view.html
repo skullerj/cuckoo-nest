@@ -1,0 +1,79 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="promo-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+      }
+      div.initial{
+        height: 100%;
+        padding: 10px;
+        background-color: var(--primary-color);
+        @apply --layout-vertical;
+      }
+      h1{
+        font-family: 'Roboto', sans-serif;
+        color: #fff;
+        -webkit-font-smoothing: antialiased;
+        font-size: 112px;
+        font-weight: 200;
+        letter-spacing: -.026em;
+        text-align: center;
+      }
+      h2{
+        color: #fff;
+        text-align: center;
+        @apply --paper-font-headline;
+      }
+      .link{
+        @apply --paper-font-subhead;
+        color: #fff;
+        cursor: pointer;
+      }
+      @media screen and (max-width: 768px ){
+        h1{
+          font-size: 56px;
+        }
+      }
+      a, a:active, a:visited, a:focus { color: #fff; text-decoration: none; }
+      a:hover { color: #fff; text-decoration: underline; }
+    </style>
+    <div class="initial">
+      <h1>¡Aguanta!</h1>
+      <h2>Estamos trabajando para que puedas pedir en línea.</h2>
+      <h2>Llámanos o escríbenos al <b>0998093257 <iron-icon src="/images/icons/wp.svg"></iron-icon>
+       </b> para pedir.</h2>
+      <div class="flex"></div>
+      <div class="vertical">
+        <a class="link self-end" href="https://goo.gl/forms/Db5rckCRax87JMHT2" rel="external" target="_blank">psst.. <b>Ayúdanos a escoger tragos</b> y gánate una orden de $20!</a>
+        <span class="link self-end">*Entrega gratuita en el Norte de Quito!</span>
+      </div>
+
+    </div>
+  </template>
+
+  <script>
+    class PromoView extends GAMixin(ReduxMixin(Polymer.Element)) {
+      static get is() { return 'promo-view'; }
+      nextPage(){
+        redirect('items');
+      }
+    }
+
+    window.customElements.define(PromoView.is, PromoView);
+  </script>
+</dom-module>
