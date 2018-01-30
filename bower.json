@@ -1,7 +1,7 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "cuckoo-nest",
   "authors": [
-    "The Polymer Authors"
+    "@skullerj"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {

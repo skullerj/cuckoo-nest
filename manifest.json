@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
+  "name": "Chupemos",
+  "short_name": "Chupemos",
+  "description": "Aplicación en línea para pedir licor o trago a domicilio.",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",
@@ -16,6 +16,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#3f51b5",
-  "background_color": "#3f51b5"
+  "theme_color": "#ff5722",
+  "background_color": "#ff5722"
 }
