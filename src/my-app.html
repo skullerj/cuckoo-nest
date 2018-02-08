@@ -32,6 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="views/location-view.html">
 <link rel="lazy-import" href="views/notfound-view.html">
 <link rel="lazy-import" href="views/order-view.html">
+<link rel="lazy-import" href="views/inventory-view.html">
 
 
 <dom-module id="my-app">
@@ -49,6 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --dark-primary-text-color: rgba(255,255,255,0.8);
         --secondary-text-color: rgba(255,255,255,0.9);
         --accent-color:var(--secondary-color);
+
       }
 
       app-header {
@@ -100,7 +102,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-header-layout>
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar class="horizontal">
-            <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
+            <a href="/">
+              <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
+            </a>        
             <div class="spacer"></div>
             <paper-button drawer-toggle hidden$="[[hideToggle]]">Mi pedido</paper-button>
           </app-toolbar>
@@ -117,6 +121,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <location-view name="location"></location-view>
             <confirmation-view name="confirmation"></confirmation-view>
             <order-view name="order"></order-view>
+            <inventory-view name="inventory"></inventory-view>
             <notfound-view name="notfound"></notfound-view>
           </iron-pages>
         </div>
@@ -183,7 +188,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _computeHideToggle(page){
         if(!page)return true;
         console.log(page);
-        if(page!=='start'&&page!=='promo'){
+        if(page!=='start'&&page!=='promo'&&page!=='inventory'){
           return false;
         }else{
           return true;

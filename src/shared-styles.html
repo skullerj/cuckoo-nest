@@ -70,6 +70,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .font-subhead{
         @apply(--paper-font-subhead);
       }
+      .font-caption{
+        @apply(--paper-font-caption);
+      }
       .font-display1{
         @apply(--paper-font-display1);
         color: rgba(0,0,0,0.54);
@@ -87,6 +90,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: rgba(0,0,0,0.54);
       }
       /* Buttons */
+      paper-button.primary{
+        color: var(--primary-color);
+        background-color: inherit;
+      }
+      paper-button[raised].primary{
+        color: var(--dark-primary-text-color);
+        background-color: var(--primary-color);
+      }
       paper-button.accent{
         color: var(--accent-color);
         background-color: inherit;
