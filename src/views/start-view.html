@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
       div.initial{
-        height: 100%;
+        height: calc(100vh - 64px);
         padding: 10px;
         background-color: var(--primary-color);
         @apply --layout-vertical;
@@ -31,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #fff;
         -webkit-font-smoothing: antialiased;
         font-size: 56px;
-        font-weight: 400;
+        font-weight: 300;
         letter-spacing: -.026em;
         line-height: 60px;
       }
@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div class="initial">
-      <h1>Haz que te <b>rinda</b>  la vaca... </h1>
+      <h1>Haz que te <br> <b>rinda</b> <br>  la vaca... </h1>
       <input placeholder="Número de Celular" type="text" class="m2-y">
       <paper-button raised class="accent self-center" on-tap="nextPage">
         <span>Yaff... Chupemos</span>

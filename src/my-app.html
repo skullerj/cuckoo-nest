@@ -11,6 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
@@ -18,7 +20,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="elements/order-summary.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="redux/global-store.html">
 
@@ -38,9 +41,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --light-primary-color:#ff7043;
         --primary-color: #ff5722;
         --dark-primary-color: #c41c00;
-        --light-secondary-color:var(--paper-blue-grey-500);
-        --secondary-color: var(--paper-blue-grey-700);
-        --dark-secondary-color:var(--paper-blue-grey-900);
+        --light-secondary-color:#607d8b;
+        --secondary-color: #455a64;
+        --dark-secondary-color:#263238;
         --primary-text-color: rgba(0,0,0,0.6);
         --white-primary-text-color: rgba(255,255,255,0.9);
         --dark-primary-text-color: rgba(255,255,255,0.8);
@@ -57,13 +60,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 120px;
       }
       .outer-container {
-        height: calc(100vh - 64px);
+        display: block;
       }
       iron-pages{
         height: 100%;
       }
       iron-pages > * {
         height: 100%;
+      }
+      app-toolbar{
+        @apply --layout-horizontal;
+      }
+      app-toolbar .spacer{
+        @apply --layout-flex;
+      }
+      paper-button[drawer-toggle]{
+        color:var(--white-primary-text-color);
+      }
+      [hidden]{
+        display: none !important;
       }
     </style>
 
@@ -78,28 +93,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}">
     </app-route>
-    <app-header-layout>
-      <app-header slot="header" condenses reveals effects="waterfall">
-        <app-toolbar>
-          <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
-        </app-toolbar>
-      </app-header>
-      <div class="outer-container">
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="notfound"
-            role="main">
-          <promo-view name="promo"></promo-view>
-          <start-view name="start"></start-view>
-          <items-view name="items"></items-view>
-          <location-view name="location"></location-view>
-          <confirmation-view name="confirmation"></confirmation-view>
-          <order-view name="order"></order-view>
-          <notfound-view name="notfound"></notfound-view>
-        </iron-pages>
-      </div>
-    </app-header-layout>
+    <app-drawer-layout force-narrow>
+      <app-drawer slot="drawer" align="right" >
+        <order-summary></order-summary>
+      </app-drawer>
+      <app-header-layout>
+        <app-header slot="header" condenses reveals effects="waterfall">
+          <app-toolbar class="horizontal">
+            <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
+            <div class="spacer"></div>
+            <paper-button drawer-toggle hidden$="[[hideToggle]]">Mi pedido</paper-button>
+          </app-toolbar>
+        </app-header>
+        <div class="outer-container">
+          <iron-pages
+              selected="[[page]]"
+              attr-for-selected="name"
+              fallback-selection="notfound"
+              role="main">
+            <promo-view name="promo"></promo-view>
+            <start-view name="start"></start-view>
+            <items-view name="items"></items-view>
+            <location-view name="location"></location-view>
+            <confirmation-view name="confirmation"></confirmation-view>
+            <order-view name="order"></order-view>
+            <notfound-view name="notfound"></notfound-view>
+          </iron-pages>
+        </div>
+      </app-header-layout>
+    </app-drawer-layout>
+
   </template>
 
   <script>
@@ -112,6 +135,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             reflectToAttribute: true,
             observer: '_pageChanged'
+          },
+          hideToggle:{
+            type:Boolean,
+            value:true,
+            computed:'_computeHideToggle(page)'
           },
           routeData: Object,
           subroute: String,
@@ -150,6 +178,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404() {
         this.page = 'notfound';
+      }
+
+      _computeHideToggle(page){
+        if(!page)return true;
+        console.log(page);
+        if(page!=='start'&&page!=='promo'){
+          return false;
+        }else{
+          return true;
+        }
+
       }
     }
 

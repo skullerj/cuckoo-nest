@@ -1,0 +1,147 @@
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="order-summary">
+  <template>
+    <style>
+      :host{
+        height: 100%;
+      }
+      .outer{
+        @apply --layout-vertical;
+        color: var(--primary-text-color);
+      }
+      .outer > *:not(.items){
+        padding:0 8px;
+      }
+      .outer h2{
+        @apply --paper-font-headline;
+        margin: 8px 0;
+        height: 100%;
+        box-sizing: border-box;
+        padding:8px;
+      }
+      .telephone, .item, .final, .total{
+        @apply --layout-horizontal;
+      }
+      .item{
+        height: 60px;
+        padding: 8px 16px;
+        @apply --layout-center-center;
+        box-sizing: border-box;
+        background-color: var(--secondary-color);
+        color: var(--secondary-text-color);
+      }
+      .item .name{
+        @apply --paper-font-body;
+      }
+      .item .qty{
+        margin-left: 8px;
+      }
+      .total{
+        @apply --paper-font-title;
+      }
+      .headline{
+        @apply --paper-font-headline;
+      }
+      .telephone{
+        margin-bottom: 8px;
+      }
+      .address{
+        @apply --layout-vertical;
+      }
+      .flex{
+        @apply --layout-flex;
+      }
+      .primary{
+        color:var(--primary-color);
+      }
+      .self-end{
+        @apply --layout-self-end;
+      }
+      .self-start{
+        @apply --layout-self-start;
+      }
+      .self-center{
+        @apply --layout-self-center;
+      }
+      paper-icon-button{
+        margin-left: 8px;
+      }
+    </style>
+    <div class="outer">
+      <h2>Mi pedido</h2>
+      <span class="primary self-end">Mi número</span>
+      <div class="telephone">
+        <paper-icon-button icon="custom:edit" class=" self-center"></paper-icon-button>
+        <div class="flex"></div>
+        <span class="headline self-start ">0997226768</span>
+      </div>
+      <span class="primary self-end">Mi pedido</span>
+      <div class="items">
+        <template is="dom-repeat" items=[[items]]>
+          <div class="item">
+            <span class="name">[[item.name]]</span>
+            <b class="qty">X [[item.qty]]</b>
+            <div class="flex"></div>
+            <span class="price">$ [[item.price]]</span>
+          </div>
+        </template>
+      </div>
+      <div class="total">
+        <div class="flex"></div>
+        <span class="name">Total:</span>
+        <span class="price">$ 33,55</span>
+      </div>
+      <div class="title">
+        <span class="primary self-center">Mi dirección</span>
+        <div class="flex"></div>
+        <paper-icon-button icon="custom:edit" class=" self-center"></paper-icon-button>
+      </div>
+      <div class="address">
+        <span>Los laureles y los mortinos. Edif Platinum Plaza Dep405B</span>
+      </div>
+      <div class="flex">
+
+      </div>
+      <div class="final">
+        <paper-button>Cancelar Pedido</paper-button>
+        <paper-button>Pedir</paper-button>
+      </div>
+    </div>
+
+  </template>
+  <script>
+    class OrderSummary extends Polymer.Element {
+      static get is(){
+        return 'order-summary';
+      }
+      static get properties(){
+        return {
+          items:{
+            type:Array,
+            value:()=>{
+              return [
+                {
+                  name:'Norteño 750ml',
+                  qty:2,
+                  price:'7,50'
+                },
+                {
+                  name:'Norteño 750ml',
+                  qty:2,
+                  price:'7,50'
+                },
+                {
+                  name:'Norteño 750ml',
+                  qty:2,
+                  price:'7,50'
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+    customElements.define(OrderSummary.is,OrderSummary);
+  </script>
+</dom-module>
