@@ -22,26 +22,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       div.initial{
         height: calc(100vh - 64px );
         padding: 10px;
-        background-color: var(--primary-color);
+        background-color: #fff;
+        background-image: url(/images/fondo.png);
+        background-repeat: repeat;
         @apply --layout-vertical;
       }
       h1{
         font-family: 'Roboto', sans-serif;
-        color: #fff;
+        color: #000;
         -webkit-font-smoothing: antialiased;
         font-size: 112px;
         font-weight: 200;
         letter-spacing: -.026em;
         text-align: center;
+        margin-bottom: 20px;
       }
       h2{
-        color: #fff;
         text-align: center;
-        @apply --paper-font-headline;
+        font-family: 'Roboto', sans-serif;
+        color: #000;
+        -webkit-font-smoothing: antialiased;
+        font-size: 56px;
+        font-weight: 400;
+        letter-spacing: -.026em;
+        line-height: 60px;
       }
       .link{
         @apply --paper-font-subhead;
-        color: #fff;
+        color: #000;
         cursor: pointer;
       }
       @media screen and (max-width: 768px ){
@@ -53,13 +61,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       a:hover { color: #fff; text-decoration: underline; }
     </style>
     <div class="initial">
-      <h1>¡Aguanta!</h1>
-      <h2>Estamos trabajando para que puedas pedir en línea.</h2>
-      <h2>Llámanos o escríbenos al <b>0998093257 <iron-icon src="/images/icons/wp.svg"></iron-icon>
-       </b> para pedir.</h2>
-     <a href="/inventory" class="m1-t self-center">
-       <paper-button raised class="accent">Mira Nuestros Tragos</paper-button>
-     </a>
+      <h1>¡Llámanos!</h1>
+      <h2><b>0998093257 <iron-icon src="/images/icons/wp-black.png"></iron-icon></b></h2>
+      <h2>Estamos a tres Norteños de acabar la página :).</h2>
+       <a href="/inventory" class="m1-t self-center">
+         <paper-button raised class="accent">Mira Nuestros Tragos</paper-button>
+       </a>
       <div class="flex"></div>
       <div class="vertical">
         <a class="link self-end" href="https://goo.gl/forms/Db5rckCRax87JMHT2" rel="external" target="_blank">psst.. <b>Ayúdanos a escoger tragos</b> y gánate una orden de $20!</a>
