@@ -37,19 +37,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-align: center;
         margin-bottom: 20px;
       }
+      h2.telephone{
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        color: #000;
+        -webkit-font-smoothing: antialiased;
+        font-size: 34px;
+        font-weight: 400;
+        letter-spacing: -.01em;
+        line-height: 40px;
+      }
+      h2.telephone iron-icon{
+        margin-bottom: 10px;
+      }
       h2{
         text-align: center;
         font-family: 'Roboto', sans-serif;
         color: #000;
         -webkit-font-smoothing: antialiased;
-        font-size: 56px;
+        font-size: 24px;
         font-weight: 400;
-        letter-spacing: -.026em;
-        line-height: 60px;
+        letter-spacing: -.012em;
+        line-height: 32px;
       }
       .link{
         @apply --paper-font-subhead;
-        color: #000;
         cursor: pointer;
       }
       @media screen and (max-width: 768px ){
@@ -57,19 +69,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           font-size: 56px;
         }
       }
-      a, a:active, a:visited, a:focus { color: #fff; text-decoration: none; }
-      a:hover { color: #fff; text-decoration: underline; }
+      a, a:active, a:visited, a:focus { color: var(--primary-color); text-decoration: none; }
+      a:hover { color: var(--primary-color); text-decoration: underline; }
     </style>
     <div class="initial">
       <h1>¡Llámanos!</h1>
-      <h2><b>0998093257 <iron-icon src="/images/icons/wp-black.png"></iron-icon></b></h2>
-      <h2>Estamos a tres Norteños de acabar la página :).</h2>
+      <h2 class="telephone"><b><iron-icon src="/images/icons/wp-black.png"></iron-icon>&nbsp;0998093257</b></h2>
+      <h2>Estamos a tres Norteñitos de acabar la página para pedir en línea :).</h2>
        <a href="/inventory" class="m1-t self-center">
          <paper-button raised class="accent">Mira Nuestros Tragos</paper-button>
        </a>
       <div class="flex"></div>
       <div class="vertical">
-        <a class="link self-end" href="https://goo.gl/forms/Db5rckCRax87JMHT2" rel="external" target="_blank">psst.. <b>Ayúdanos a escoger tragos</b> y gánate una orden de $20!</a>
+        <a class="link self-end" href="https://goo.gl/forms/Z9tSLrKVN4PX60a22" rel="external" target="_blank">psst... <b>Ayúdanos a escoger tragos</b> y gánate una orden de $20!</a>
         <span class="link self-end">*Entrega gratuita en el Norte de Quito!</span>
 
       </div>
