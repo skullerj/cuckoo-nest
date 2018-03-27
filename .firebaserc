@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "chupemos-193122"
+    "default": "chupemos-193122",
+    "staging": "chupemos-stag"
   }
 }

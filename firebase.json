@@ -13,11 +13,8 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "function": "app"
       }
     ]
-  },
-  "storage": {
-    "rules": "storage.rules"
   }
 }

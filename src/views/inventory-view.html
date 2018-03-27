@@ -189,7 +189,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'inventory-view'; }
       static get properties(){
         return {
+
         }
+      }
+      connectedCallback(){
+        super.connectedCallback();
+        document.title='Nuestro Inventario | Chupemos.com';
+        document.querySelector('meta[name=description]').content='El inventario de nuestros licores. Entrega a domicilio gratuita en el norte de Quito.';
       }
     }
 
