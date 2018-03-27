@@ -1,5 +1,8 @@
 {
-  "name": "cuckoo-nest",
+  "name": "chupemos",
+  "description":"Chupemos.com webapp. This app allows people order drinks online.",
+  "version":"0.1.0",
+  "author":"Juan Rosero (@skullerj)",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "eslint": "^3.19.0",
