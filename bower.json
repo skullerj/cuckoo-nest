@@ -20,7 +20,8 @@
     "iron-icon": "^2.0.1",
     "google-map": "GoogleWebComponents/google-map#^2.0.3",
     "iron-image": "^2.1.2",
-    "paper-item": "^2.0.0"
+    "paper-item": "^2.0.0",
+    "polymerfire": "https://github.com/firebase/polymerfire.git#firestore"
   },
   "resolutions": {
     "polymer": "^2.0.0"

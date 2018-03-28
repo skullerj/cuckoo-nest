@@ -35,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="views/inventory-view.html">
 
 
-<dom-module id="my-app">
+<dom-module id="chup-app">
   <template>
     <style>
       :host {
@@ -104,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <app-toolbar class="horizontal">
             <a href="/">
               <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
-            </a>        
+            </a>
             <div class="spacer"></div>
             <paper-button drawer-toggle hidden$="[[hideToggle]]">Mi pedido</paper-button>
           </app-toolbar>
@@ -131,8 +131,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
-    class MyApp extends GAMixin(ReduxMixin(Polymer.Element)) {
-      static get is() { return 'my-app'; }
+    class ChupApp extends GAMixin(ReduxMixin(Polymer.Element)) {
+      static get is() { return 'chup-app'; }
 
       static get properties() {
         return {
@@ -197,6 +197,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
 
-    window.customElements.define(MyApp.is, MyApp);
+    window.customElements.define(ChupApp.is, ChupApp);
   </script>
 </dom-module>

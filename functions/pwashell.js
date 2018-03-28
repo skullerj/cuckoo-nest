@@ -14,7 +14,8 @@ const pwaShell = function(opts) {
       <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
       <title>Chupemos</title>
-      <meta name="description" content="Plataforma en línea para pedir licores a domicilio">
+      <meta name="description" content="Plataforma en línea para pedir licor o trago a domicilio">
+
       <base href="/">
 
       <link rel="icon" href="images/favicon.ico">
@@ -77,7 +78,7 @@ const pwaShell = function(opts) {
       <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
       <!-- Load your application shell -->
-      <link rel="import" href="/src/my-app.html">
+      <link rel="import" href="/src/chup-app.html">
 
       <!-- Add any global styles for body, document, etc. -->
       <style>
@@ -97,7 +98,7 @@ const pwaShell = function(opts) {
       </style>
     </head>
     <body>
-      <my-app></my-app>
+      <chup-app></chup-app>
       <noscript>
         Please enable JavaScript to view this website.
       </noscript>
