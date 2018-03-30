@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/polymer-redux/polymer-redux.html">
 <link rel="import" href="reducers/order-reducer.html">
 <link rel="import" href="reducers/client-reducer.html">
+<link rel="import" href="reducers/items-reducer.html">
 
 
 <script>
@@ -52,7 +53,9 @@
       page:page(state.page,action),
       loading:loading(state.loading,action),
       order:order(state.order,action),
-      client:client(state.client,action)
+      client:client(state.client,action),
+      items:items(state.items,action),
+      bundles:bundles(state.bundles,action)
     }
   };
 

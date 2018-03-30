@@ -27,6 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="redux/global-store.html">
 <link rel="import" href="elements/localstorage-manager.html">
 <link rel="import" href="elements/client-info.html">
+<link rel="import" href="elements/items-data.html">
 
 <link rel="import" href="views/start-view.html">
 
@@ -87,7 +88,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <localstorage-manager></localstorage-manager>
-    <!-- <client-info></client-info> -->
     <app-location
         route="{{route}}"
         url-space-regex="^[[rootPath]]">
@@ -198,6 +198,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.appendChild(fa);
         var clientInfo=document.createElement('client-info');
         this.appendChild(clientInfo);
+        var itemsData=document.createElement('items-data');
+        this.appendChild(itemsData);
       }
 
       _routePageChanged(page) {
