@@ -1,0 +1,85 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+
+<!-- `<localstorage-manager>` is in charge of saving the parts of the global state that
+need to be persisted on the local storage.
+
+-->
+
+<dom-module id="localstorage-manager">
+  <template>
+    <app-localstorage-document key="phone" data="{{storedPhone}}">
+    <app-localstorage-document key="order" data="{{storedOrder}}">
+  </template>
+  <script>
+    class LocalstorageManager extends ReduxMixin(Polymer.Element){
+      static get is(){
+        return 'localstorage-manager';
+      }
+      static get properties(){
+        return{
+          phone:{
+            type:String,
+            statePath:'client.phone',
+            observer:'_observePhone'
+          },
+          storedPhone:{
+            type:String,
+            observer:'_observeStoredPhone'
+          },
+          order:{
+            type:Object,
+            statePath:'order',
+            observer:'_observeOrder'
+          },
+          storedOrder:{
+            type:Object,
+            observer:'_observeStoredOrder'
+          }
+        }
+      }
+      static get actions(){
+        return{
+          setPhone:function(phone){
+            return {type:'SET_PHONE',phone:phone};
+          },
+          loadOrder:function(order){
+            return {type:'LOAD_ORDER',order:order};
+          }
+        }
+      }
+      _observePhone(newVal,oldVal){
+        if(newVal){
+          this.storedPhone=newVal;
+        }
+      }
+      _observeStoredPhone(newVal,oldVal){
+        if(newVal){
+          this.dispatch('setPhone',newVal);
+        }
+      }
+      /**
+      *Check if the order is empty or not
+      */
+      orderNotEmpty(order){
+        if(order && typeof order === 'object'){
+          if(order.items.length>0){
+            return true;
+          }
+        }
+        return false;
+      }
+      _observeOrder(newVal){
+        if(newVal){
+          this.storedOrder=newVal;
+        }
+      }
+      _observeStoredOrder(newVal){
+        if(this.orderNotEmpty(newVal)){
+          this.dispatch('loadOrder',newVal);
+        }
+      }
+    }
+    window.customElements.define(LocalstorageManager.is, LocalstorageManager);
+  </script>
+</dom-module>

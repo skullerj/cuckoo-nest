@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/chup-app.html",
   "fragments": [
     "src/views/promo-view.html",
     "src/views/confirmation-view.html",

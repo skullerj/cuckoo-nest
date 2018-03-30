@@ -3,6 +3,7 @@
 <script src="/node_modules/redux-thunk/dist/redux-thunk.min.js"></script>
 <link rel="import" href="../../bower_components/polymer-redux/polymer-redux.html">
 <link rel="import" href="reducers/order-reducer.html">
+<link rel="import" href="reducers/client-reducer.html">
 
 
 <script>
@@ -10,6 +11,7 @@
     window.history.pushState({}, null, location);
     window.dispatchEvent(new CustomEvent('location-changed'));
   }
+  //GlobalActionMixin
   const GAMixin = (superclass)=>{
     return class extends superclass {
       constructor(){
@@ -35,11 +37,11 @@
   }
   const loading = (state=false,action)=>{
       switch (action) {
-        case 'ITEMS_REQUEST':
+        case 'LOADING':
             return true;
           break;
-        case 'ITEMS_LOAD':
-            return false
+        case 'LOADED':
+            return false;
           break;
         default:
           return state;
@@ -49,7 +51,8 @@
     return{
       page:page(state.page,action),
       loading:loading(state.loading,action),
-      order:order(state.order,action)
+      order:order(state.order,action),
+      client:client(state.client,action)
     }
   };
 
@@ -65,5 +68,4 @@
   );
 
   const ReduxMixin = PolymerRedux(store);
-
 </script>

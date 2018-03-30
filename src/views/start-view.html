@@ -35,9 +35,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         letter-spacing: -.026em;
         line-height: 60px;
       }
-      h2{
-
-      }
       input{
         background-color : #fff;
         box-sizing: border-box;
@@ -54,9 +51,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--primary-text-color);
       }
     </style>
+
     <div class="initial">
       <h1>Haz que te <br> <b>rinda</b> <br>  la vaca... </h1>
-      <input placeholder="Número de Celular" type="text" class="m2-y">
+      <input placeholder="Número de Celular" type="text" class="m2-y" id="phoneInput">
       <paper-button raised class="accent self-center" on-tap="nextPage">
         <span>Yaff... Chupemos</span>
         <iron-icon icon="custom:chevron-right"></iron-icon>
@@ -69,9 +67,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class StartView extends GAMixin(ReduxMixin(Polymer.Element)) {
       static get is() { return 'start-view'; }
+      static get properties(){
+        return{
+          phone:{
+            type:String,
+            value:null,
+            statePath:'client.phone',
+            observer:'_phoneObserver'
+          }
+        }
+      }
+      static get actions(){
+        return{
+          setPhone:function(phone){
+            return {type:'SET_PHONE',phone:phone}
+          }
+        }
+      }
+      _phoneObserver(newVal,lastVal){
+        if(newVal){
+          this.$.phoneInput.value=newVal;
+        }
+      }
       nextPage(){
+        this.dispatch('setPhone',this.$.phoneInput.value);
         redirect('items');
       }
+
     }
 
     window.customElements.define(StartView.is, StartView);

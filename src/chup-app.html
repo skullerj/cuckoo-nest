@@ -21,11 +21,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="elements/order-summary.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="redux/global-store.html">
+<link rel="import" href="elements/localstorage-manager.html">
+<link rel="import" href="elements/client-info.html">
 
-<link rel="import" href="views/promo-view.html">
+<link rel="import" href="views/start-view.html">
 
 <link rel="lazy-import" href="views/confirmation-view.html">
 <link rel="lazy-import" href="views/items-view.html">
@@ -83,7 +86,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: none !important;
       }
     </style>
-
+    <localstorage-manager></localstorage-manager>
+    <!-- <client-info></client-info> -->
     <app-location
         route="{{route}}"
         url-space-regex="^[[rootPath]]">
@@ -131,6 +135,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+    const firebaseConfig = {
+      prod:{
+        apiKey: "AIzaSyDYnUpB1FcnU7jmr6cvIkp8_YM9QlPufGQ",
+        authDomain: "chupemos-193122.firebaseapp.com",
+        databaseURL: "https://chupemos-193122.firebaseio.com",
+        projectId: "chupemos-193122",
+        storageBucket: "chupemos-193122.appspot.com",
+        messagingSenderId: "760631908691"
+      },
+      test:{
+        apiKey: "AIzaSyC2Bzmix1jIP3jBLxM8QMvN1YkR23y8ZIo",
+        authDomain: "chupemos-stag.firebaseapp.com",
+        databaseURL: "https://chupemos-stag.firebaseio.com",
+        projectId: "chupemos-stag",
+        storageBucket: "chupemos-stag.appspot.com",
+        messagingSenderId: "480039852111"
+      }
+    };
     class ChupApp extends GAMixin(ReduxMixin(Polymer.Element)) {
       static get is() { return 'chup-app'; }
 
@@ -160,16 +182,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ];
       }
 
+      connectedCallback(){
+        super.connectedCallback();
+        var config = firebaseConfig['test'];
+        if(window.location.hostname==='chupemos.com'){
+          config = firebaseConfig['prod'];
+        }
+        var fa=document.createElement('firebase-app');
+        fa.setAttribute('auth-domain',config.authDomain);
+        fa.setAttribute('database-url',config.databaseURL);
+        fa.setAttribute('api-key',config.apiKey);
+        fa.setAttribute('storage-bucket',config.storageBucket);
+        fa.setAttribute('messaging-sender-id',config.messagingSenderId);
+        fa.setAttribute('project-id',config.projectId);
+        this.appendChild(fa);
+        var clientInfo=document.createElement('client-info');
+        this.appendChild(clientInfo);
+      }
+
       _routePageChanged(page) {
         // If no page was found in the route data, page will be an empty string.
         // Default to 'view1' in that case.
-        this.page = page || 'promo';
+        this.page = page || 'start';
 
       }
 
       _pageChanged(page) {
         this.dispatch('changePage',page);
-        if(page==='promo'){
+        if(page==='start'){
           return;
         }
         // Load page import on demand. Show 404 page if fails
@@ -187,7 +227,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _computeHideToggle(page){
         if(!page)return true;
-        console.log(page);
         if(page!=='start'&&page!=='promo'&&page!=='inventory'){
           return false;
         }else{

@@ -1,22 +1,31 @@
 <script>
-  const order = (state={
-    phone:null,
-    selectedItems:{
-
-    },
+  const initialOrder={
+    id:null,
+    client:null,
     location:{
       lat:null,
       lon:null,
-      name:null,
-      instructions:null
+      directions:null
     },
-    status:'new',
-    id:null
-  },action)=>{
-    switch (action) {
-      case 'SET_PHONE':
-        return Object.assign({},state,{phone:action.phone});
-        break;
+    items:[],
+    bundles:[],
+    discounts:[],
+    createdAt:null,
+    confirmedAt:null,
+    deliveredAt:null,
+    createdBy:null,
+    deliveredBy:null,
+    rating:0,
+    state:'new'
+  };
+  const order = (state=initialOrder,action)=>{
+    switch (action.type) {
+      case 'LOAD_ORDER':
+        return Object.assign({},initialOrder,action.order);
+      break;
+      case 'RESET_ORDER':
+        return Object.assign({},initialOrder);
+      break;
       default:
         return state;
     }
