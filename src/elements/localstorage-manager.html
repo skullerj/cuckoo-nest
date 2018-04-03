@@ -35,6 +35,13 @@ need to be persisted on the local storage.
           storedOrder:{
             type:Object,
             observer:'_observeStoredOrder'
+          },
+          /**
+          *Whether the order has been loaded to memory
+          */
+          orderLoaded:{
+            type:Boolean,
+            value:false
           }
         }
       }
@@ -75,8 +82,9 @@ need to be persisted on the local storage.
         }
       }
       _observeStoredOrder(newVal){
-        if(this.orderNotEmpty(newVal)){
-          this.dispatch('loadOrder',newVal);
+        if(this.orderNotEmpty(newVal)&&!this.orderLoaded){
+          this.orderLoaded=true;
+          this.dispatch('loadOrder',newVal);        
         }
       }
     }

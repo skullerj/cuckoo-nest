@@ -1,145 +1,124 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../redux/actions/order-actions.html">
+<link rel="import" href="../shared-styles.html">
 <dom-module id="order-summary">
   <template>
-    <style>
+    <style include="shared-styles">
       :host{
         height: 100%;
       }
       .outer{
         @apply --layout-vertical;
         color: var(--primary-text-color);
-      }
-      .outer > *:not(.items){
-        padding:0 8px;
-      }
-      .outer h2{
-        @apply --paper-font-headline;
-        margin: 8px 0;
         height: 100%;
-        box-sizing: border-box;
-        padding:8px;
       }
-      .telephone, .item, .final, .total{
+      app-toolbar{
+        background-color: var(--primary-color);
+        color: var(--white-primary-text-color);
+        height: 64px;
+      }
+      .inner{
+        @apply --layout-vertical;
+        @apply --layout-flex;
+      }
+      div.bordered{
+        border-bottom: 1px solid rgba(0,0,0,0.3)
+      }
+      div.number{
         @apply --layout-horizontal;
+
       }
-      .item{
-        height: 60px;
-        padding: 8px 16px;
-        @apply --layout-center-center;
-        box-sizing: border-box;
+      div.items{
+        @apply --layout-vertical;
+        height: 325px;
         background-color: var(--secondary-color);
         color: var(--secondary-text-color);
       }
-      .item .name{
-        @apply --paper-font-body;
+      div.item{
+        height: 60px;
+        @apply --layout-horizontal;
+        background-color: var(--light-secondary-color);
+        padding: 0.5rem;
       }
-      .item .qty{
-        margin-left: 8px;
-      }
-      .total{
-        @apply --paper-font-title;
-      }
-      .headline{
-        @apply --paper-font-headline;
-      }
-      .telephone{
-        margin-bottom: 8px;
-      }
-      .address{
-        @apply --layout-vertical;
-      }
-      .flex{
-        @apply --layout-flex;
-      }
-      .primary{
-        color:var(--primary-color);
-      }
-      .self-end{
-        @apply --layout-self-end;
-      }
-      .self-start{
-        @apply --layout-self-start;
-      }
-      .self-center{
-        @apply --layout-self-center;
-      }
-      paper-icon-button{
-        margin-left: 8px;
+      div.item iron-image{
+        height: 50px;
+        width: 50px;
       }
     </style>
     <div class="outer">
-      <h2>Mi pedido</h2>
-      <span class="primary self-end">Mi número</span>
-      <div class="telephone">
-        <paper-icon-button icon="custom:edit" class=" self-center"></paper-icon-button>
-        <div class="flex"></div>
-        <span class="headline self-start ">0997226768</span>
+      <app-toolbar>
+        <div main-title>Mi Pedido</div>
+      </app-toolbar>
+      <div class="inner">
+        <span class="font-caption p1-x p1-t">Mi Número</span>
+        <div class="number p1-x">
+          <div class="flex"></div>
+          <paper-icon-button icon="custom:edit"></paper-icon-button>
+          <span class="self-center font-title">[[client.phone]]</span>
+        </div>
+        <div class="items">
+          <span class="font-caption m1">Mis botellas</span>
+          <template is="dom-repeat" items="[[orderItems]]">
+            <div class="item">
+              <paper-icon-button icon="custom:remove-circle" class="self-center" on-tap="removeItem"></paper-icon-button>
+              <div class="vertical flex">
+                <span>[[item.info.name]]</span>
+                <span class="text-primary">X [[item.qty]]</span>
+              </div>
+            </div>
+          </template>
+          <template is="dom-repeat" items="[[orderBundles]]">
+            <div class="item">
+              <paper-icon-button icon="custom:remove-circle" class="self-center" on-tap="removeBundle"></paper-icon-button>
+              <div class="vertical flex">
+                <span>[[item.info.name]]</span>
+                <span class="text-primary">X [[item.qty]]</span>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="horizontal p1">
+          <div class="flex"></div>
+          <span class="font-title">Total: $[[total]]</span>
+        </div>
       </div>
-      <span class="primary self-end">Mi pedido</span>
-      <div class="items">
-        <template is="dom-repeat" items=[[items]]>
-          <div class="item">
-            <span class="name">[[item.name]]</span>
-            <b class="qty">X [[item.qty]]</b>
-            <div class="flex"></div>
-            <span class="price">$ [[item.price]]</span>
-          </div>
-        </template>
-      </div>
-      <div class="total">
-        <div class="flex"></div>
-        <span class="name">Total:</span>
-        <span class="price">$ 33,55</span>
-      </div>
-      <div class="title">
-        <span class="primary self-center">Mi dirección</span>
-        <div class="flex"></div>
-        <paper-icon-button icon="custom:edit" class=" self-center"></paper-icon-button>
-      </div>
-      <div class="address">
-        <span>Los laureles y los mortinos. Edif Platinum Plaza Dep405B</span>
-      </div>
-      <div class="flex">
 
-      </div>
-      <div class="final">
+      <div class="horizontal">
+        <div class="flex"></div>
         <paper-button>Cancelar Pedido</paper-button>
-        <paper-button>Pedir</paper-button>
       </div>
     </div>
 
   </template>
   <script>
-    class OrderSummary extends Polymer.Element {
+    class OrderSummary extends OrderActions(Polymer.Element) {
       static get is(){
         return 'order-summary';
       }
       static get properties(){
         return {
-          items:{
-            type:Array,
-            value:()=>{
-              return [
-                {
-                  name:'Norteño 750ml',
-                  qty:2,
-                  price:'7,50'
-                },
-                {
-                  name:'Norteño 750ml',
-                  qty:2,
-                  price:'7,50'
-                },
-                {
-                  name:'Norteño 750ml',
-                  qty:2,
-                  price:'7,50'
-                }
-              ]
-            }
+          client:{
+            type:Object,
+            statePath:'client'
           }
         }
+      }
+      static get actions(){
+        return {
+          removeItem:(itemId)=>{
+            return {type:'REMOVE_ITEM',item:itemId};
+          },
+          removeBundle:(bundleId)=>{
+            return {type:'REMOVE_BUNDLE',bundle:bundleId};
+          }
+        }
+      }
+      removeItem(e){
+        this.dispatch('removeItem',e.model.__data.item.info.__id__);
+      }
+      removeBundle(e){
+        this.dispatch('removeBundle',e.model.__data.item.info.__id__);
       }
     }
     customElements.define(OrderSummary.is,OrderSummary);

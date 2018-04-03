@@ -21,6 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-badge/paper-badge.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="elements/order-summary.html">
 <link rel="import" href="my-icons.html">
@@ -63,7 +65,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       .logo{
         height: 60px;
-        width: 120px;
+        width: 80px;
       }
       .outer-container {
         display: block;
@@ -86,6 +88,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       [hidden]{
         display: none !important;
       }
+      paper-badge{
+        --paper-badge-margin-left:-12px;
+        --paper-badge-margin-bottom:-12px;
+      }
+
     </style>
     <localstorage-manager></localstorage-manager>
     <app-location
@@ -110,7 +117,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
             </a>
             <div class="spacer"></div>
-            <paper-button drawer-toggle hidden$="[[hideToggle]]">Mi pedido</paper-button>
+            <div style="display:inline-block">
+              <paper-icon-button icon="custom:shopping-cart" hidden$="[[hideToggle]]" drawer-toggle></paper-icon-button>
+              <paper-badge label="[[totalItems]]" hidden$="[[totalItems]]"></paper-badge>
+            </div>
+
           </app-toolbar>
         </app-header>
         <div class="outer-container">
@@ -173,6 +184,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
           rootPath: String,
+          totalItems:{
+            type:Number,
+            statePath:(state)=>{
+              return state.order.items.length+state.order.bundles.length;
+            }
+          }
         };
       }
 
