@@ -10,6 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../shared-styles.html">
 
 <dom-module id="location-view">
@@ -22,6 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply --layout-vertical;
         height: calc(100vh - 64px);
         width: 100%;
+        position: relative;
       }
       google-map{
         width: 100%;
@@ -29,17 +33,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       div.title{
         padding: 10px;
       }
+      div.search-container{
+        position: absolute;
+        top: 20px;
+        @apply --layout-self-center;
+        @apply --layout-horizontal;
+        z-index: 100;
+        width: 90%;
+        border-radius: 4px;
+        color: var(--primary-text-color);
+        @apply --shadow-elevation-4dp;
+        background-color : #fff;
+      }
+      div.search-container iron-icon{
+        height: 24px;
+        width: 24px;
+        margin-left: 8px;
+        @apply --layout-self-center;
+      }
+      div.search-container .gps-container{
+        height: 42px;
+        width: 42px;
+        color: white;
+        border-radius: 4px;
+        background-color: var(--primary-color);
+      }
+      div.search-container .gps-container paper-spinner-lite{
+        margin: 6px;
+        --paper-spinner-color:var(--accent-color);
+      }
+      input#searchInput{
+        @apply --paper-font-body1;
+        background-color : #fff;
+        box-sizing: border-box;
+        padding-right: 16px;
+        line-height: 40px;
+        border: none;
+        margin: 0;
+        font-size: 16px;
+        -webkit-appearance: none;
+        text-align: left;
+        @apply --layout-flex
+      }
+      div.map-container{
+        @apply --layout-flex;
+        position: relative;
+      }
+      google-map{
+        height: 100%;
+        width: 100%;
+      }
+      iron-icon.map-marker{
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        color: var(--primary-color);
+        height: 40px;
+        width: 40px;
+        z-index: 100;
+      }
+      div.directions-container{
+        @apply --layout-vertical
+      }
+
     </style>
     <div class="outer">
-      <div class="title">
-        <span>Dónde entregamos?</span>
-      </div>
-      <google-map class="flex"></google-map>
-      <div class="bottom">
-        <div class="vertical flex">
-          <span class="b-price">$22,55</span>
-          <span class="">4 botellas</span>
+      <div class="search-container">
+        <iron-icon icon="custom:place"></iron-icon>
+        <input type="text" placeholder="¿Dónde entregamos?" id="searchInput">
+        <div class="gps-container">
+          <paper-icon-button icon="custom:gps" on-tap="getLocation" hidden$="[[loading]]"></paper-icon-button>
+          <paper-spinner-lite active hidden$="[[!loading]]"></paper-spinner-lite>
         </div>
+      </div>
+      <div class="map-container">
+        <iron-icon icon="custom:place" class="map-marker"></iron-icon>
+        <google-map class="flex" api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" on-google-map-ready="_mapReady" disable-map-type-control disable-street-view-control disable-full-screen-control drag-events="true" id="map" zoom="14" additional-map-options='{"fullscreenControl":false,"zoomControlOptions":{"position":4}}'></google-map>
+      </div>
+      <div class="bottom">
+        <paper-icon-button icon="custom:chevron-left" class="self-center m1-r" on-tap="backPage"></paper-icon-button>
+        <div class="flex"></div>
         <paper-button class="self-center" on-tap="nextPage">
           <span>Yaff.. pidamos</span>
           <iron-icon icon="custom:chevron-right"></iron-icon>
@@ -47,10 +120,81 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </div>
   </template>
-
   <script>
-    class LocationView extends Polymer.Element {
+    class LocationView extends ReduxMixin(Polymer.Element) {
       static get is() { return 'location-view'; }
+      static get properties(){
+        return {
+          loading:{
+            type:Boolean,
+            value:false
+          }
+        }
+      }
+      static get actions(){
+        return {
+          setLocation:(lat,lon)=>{
+            return {type:'SET_LOCATION',lat:lat,lon:lon};
+          }
+        }
+      }
+      _mapReady(){
+        var config = {
+	        componentRestrictions: {country: 'ec'},
+          types:['geocode']
+	      };
+        var input = this.$.searchInput;
+        input = new google.maps.places.Autocomplete(input,config);
+        google.maps.event.addListener(input,'place_changed',()=>{
+		   		var place = input.getPlace();
+          if(!place.geometry){
+            return console.log('No hay la ubicación');
+          }
+          this.$.map.latitude=place.geometry.location.lat();
+          this.$.map.longitude=place.geometry.location.lng();
+		    });
+      }
+      _setPosition(position){
+        this.$.map.latitude=position.coords.latitude;
+        this.$.map.longitude=position.coords.longitude;
+        this.loading=false;
+      }
+      _handlePositioningError(error){
+        switch(error.code){
+          case error.PERMISSION_DENIED:
+              console.log('No nos permites localizarte.');
+              break;
+          case error.POSITION_UNAVAILABLE:
+              console.log('No se puede acceder a tu ubicación');
+              break;
+          case error.TIMEOUT:
+              console.log('No se puede acceder a tu ubicación');
+              break;
+          case error.UNKNOWN_ERROR:
+              console.log('No se puede acceder a tu ubicación');
+              break;
+        }
+        this.loading=false;
+      }
+      getLocation(){
+        if(navigator.geolocation){
+          this.loading=true;
+          navigator.geolocation.getCurrentPosition(this._setPosition.bind(this),this._handlePositioningError.bind(this));
+        }else{
+          console.log('Tu explorador no perimite usar tu ubicación.');
+        }
+      }
+      backPage(){
+        redirect('/items')
+      }
+      nextPage(){
+        if(this.$.map.zoom>16){
+          this.dispatch('setLocation',this.$.map.latitude,this.$.map.longitude);
+          redirect('/confirmation');
+        }else{
+          console.log('Ubica más el mapa para seleccionar tu ubicación exacta');
+        }
+      }
     }
 
     window.customElements.define(LocationView.is, LocationView);

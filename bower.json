@@ -24,7 +24,8 @@
     "polymerfire": "https://github.com/firebase/polymerfire.git#firestore",
     "app-storage": "PolymerElements/app-storage#^2.1.1",
     "paper-tabs": "PolymerElements/paper-tabs#^2.1.0",
-    "paper-badge": "PolymerElements/paper-badge#^2.1.0"
+    "paper-badge": "PolymerElements/paper-badge#^2.1.0",
+    "paper-spinner": "PolymerElements/paper-spinner#^2.1.0"
   },
   "resolutions": {
     "polymer": "^2.0.0"

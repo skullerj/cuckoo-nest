@@ -82,17 +82,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </section>
     </iron-pages>
     <div class="bottom">
-      <paper-icon-button icon="custom:chevron-left" class="self-center m1-r"></paper-icon-button>
-      <div class="vertical flex">
-        <span class="b-price">[[total]]</span>
-      </div>
+      <paper-icon-button icon="custom:chevron-left" class="self-center m1-r" on-tap="backPage"></paper-icon-button>
+      <div class="vertical flex"></div>
       <paper-button class="self-center" on-tap="nextPage">
         <span>Yaff.. sigamos</span>
         <iron-icon icon="custom:chevron-right"></iron-icon>
       </paper-button>
     </div>
   </template>
-
   <script>
     class ItemsView extends OrderActions(Polymer.Element) {
       static get is() { return 'items-view'; }
@@ -106,6 +103,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       nextPage(){
         redirect('/location');
+      }
+      backPage(){
+        redirect('/items')
       }
 
     }

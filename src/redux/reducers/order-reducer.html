@@ -66,6 +66,10 @@
         },[]);
         return Object.assign({},state,{bundles:newBundles});
       break;
+      case 'SET_LOCATION':
+        var newLocation = Object.assign({},state.location,{lat:action.lat,lon:action.lon});
+        return Object.assign({},state,{location:newLocation});
+      break;
       default:
         return state;
     }
