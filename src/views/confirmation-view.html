@@ -9,6 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="../redux/actions/order-actions.html">
 <link rel="import" href="../shared-styles.html">
 
 <dom-module id="confirmation-view">
@@ -16,22 +20,153 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
-
-        padding: 10px;
+      }
+      div.outer{
+        @apply --layout-vertical;
+        padding-bottom: 70px;
+      }
+      div.info-item{
+        background-color: #fff;
+        margin: 8px 8px 0px 8px;
+        @apply --layout-vertical;
+        @apply --shadow-elevation-2dp;
+      }
+      div.info-item .info{
+        padding: 1rem;
+        @apply --layout-flex;
+      }
+      div.info-item .actions{
+        @apply --layout-horizontal-reverse;
+        border-top: 1px solid rgba(0,0,0,0.3);
+      }
+      div.info-item .map{
+        height: 300px;
+        width: 100%;
+        position: relative;
+      }
+      div.info-item .map .map-over{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 10;
+      }
+      div.info-item .map iron-icon.map-marker{
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        color: var(--primary-color);
+        height: 40px;
+        width: 40px;
+        z-index: 10;
+      }
+      span.info-title{
+        @apply --paper-font-title;
+        color: var(--primary-color);
+        margin: 8px;
+      }
+      div.item{
+        height: 60px;
+        @apply --layout-horizontal;
+        padding: 0.5rem;
+      }
+      paper-spinner-lite{
+        --paper-spinner-color:var(--primary-color);
       }
     </style>
-
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <div class="outer">
+      <span class="info-title">Número</span>
+      <div class="info-item">
+        <div class="info">
+          <div class="">
+            <span>[[client.phone]]</span>
+          </div>
+        </div>
+        <div class="actions">
+          <paper-button class="primary">Cambiar</paper-button>
+        </div>
+      </div>
+      <span class="info-title">Pedido</span>
+      <div class="info-item">
+        <div class="info">
+          <div class="items">
+            <template is="dom-repeat" items="[[orderItems]]">
+              <div class="item">
+                <span>[[item.info.name]]</span>
+                <div class="flex"></div>
+                <span class="text-primary">X [[item.qty]]</span>
+              </div>
+            </template>
+            <template is="dom-repeat" items="[[orderBundles]]">
+              <div class="item">
+                <span>[[item.info.name]]</span>
+                <div class="flex"></div>
+                <span class="text-primary">X [[item.qty]]</span>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="actions">
+          <paper-button class="primary">Cambiar</paper-button>
+        </div>
+      </div>
+      <span class="info-title">Ubicación</span>
+      <div class="info-item">
+        <div class="map">
+          <div class="map-over"></div>
+          <iron-icon icon="custom:place" class="map-marker"></iron-icon>
+          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control disable-street-view-control disable-full-screen-control drag-events="true" id="map" zoom="17" additional-map-options='{"fullscreenControl":false,"zoomControl":false}' latitude="[[order.location.lat]]" longitude="[[order.location.lon]]"></google-map>
+        </div>
+        <div class="actions">
+          <paper-button class="primary">Cambiar</paper-button>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="flex"></div>
+        <paper-spinner-lite active="[[loading]]"></paper-spinner-lite>
+        <paper-button raised class="primary self-center" on-tap="submitOrder" disabled="[[loading]]">Confirmar pedido</paper-button>
+      </div>
     </div>
+
   </template>
 
   <script>
-    class ConfirmationView extends Polymer.Element {
+    class ConfirmationView extends OrderActions(Polymer.Element) {
       static get is() { return 'confirmation-view'; }
+      static get properties(){
+        return {
+          client:{
+            type:Object,
+            statePath:'client'
+          },
+          loading:{
+            type:Boolean,
+            value:false
+          }
+        }
+      }
+      static get actions(){
+        return{
+          addPendant:function(orderId){
+            return {type:'ADD_PENDANT_ORDER',order:orderId}
+          }
+        }
+      }
+      submitOrder(){
+        this.loading=true;
+        var db = firebase.firestore();
+        var order = Object.assign({},this.order,{phone:this.client.phone,createdAt:(new Date).getTime()})
+        db.collection("order").add(order)
+        .then((docRef)=>{
+            this.loading=false;
+            redirect('/order/'+docRef.id);
+            this.dispatch('addPendant',docRef.id);
+            console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((error)=>{
+            this.loading=false;
+            console.error("Error adding document: ", error);
+        });
+      }
     }
 
     window.customElements.define(ConfirmationView.is, ConfirmationView);

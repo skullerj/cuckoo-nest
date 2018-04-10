@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-firestore-mixin.html">
+<dom-module id="order-info">
+  <template>
+
+  </template>
+  <script>
+    class OrderInfo extends ReduxMixin(Polymer.FirestoreMixin(Polymer.Element)){
+      static get is(){
+        return 'order-info';
+      }
+      static get properties(){
+        return {
+          /**
+          *The order id that will be queried
+          */
+          orderId:{
+            type:String,
+            notify:true
+          },
+          /**
+          *The order info from frirestore
+          */
+          order:{
+            type:Object,
+            doc:'order/{orderId}',
+            notify:true,
+            live:true
+          }
+        }
+      }
+      static get actions(){
+        return{
+          removePendant:function(orderId){
+            return {type:'REMOVE_PENDANT_ORDER',order:orderId}
+          }
+        }
+      }
+      static get observers(){
+        return ['_watchOrderState(order.state)']
+      }
+      _watchOrderState(state){
+        console.log(state);
+      }
+    }
+    customElements.define(OrderInfo.is,OrderInfo);
+  </script>
+</dom-module>
