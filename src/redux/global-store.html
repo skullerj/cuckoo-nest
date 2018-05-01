@@ -12,6 +12,9 @@
     window.history.pushState({}, null, location);
     window.dispatchEvent(new CustomEvent('location-changed'));
   }
+  function message(message,duration){
+    window.dispatchEvent(new CustomEvent('show-message',{detail:{message:message,duration:duration}}));
+  }
   //GlobalActionMixin
   const GAMixin = (superclass)=>{
     return class extends superclass {

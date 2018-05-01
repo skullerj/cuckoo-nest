@@ -189,6 +189,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return{
           addPendant:function(orderId){
             return {type:'ADD_PENDANT_ORDER',order:orderId}
+          },
+          resetOrder:function(){
+            return {type:'RESET_ORDER'};
           }
         }
       }
@@ -201,6 +204,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.loading=false;
             redirect('/order/'+docRef.id);
             this.dispatch('addPendant',docRef.id);
+            this.dispatch('resetOrder')
             console.log("Document written with ID: ", docRef.id);
         })
         .catch((error)=>{

@@ -201,6 +201,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       connectedCallback(){
         super.connectedCallback();
+        window.addEventListener('show-message',(e)=>{
+          this._showMessage(e.detail.message,e.detail.duration);
+        });
+
         var config = firebaseConfig['test'];
         if(window.location.hostname==='chupemos.com'){
           config = firebaseConfig['prod'];
@@ -246,7 +250,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _computeHideToggle(page){
         if(!page)return true;
-        if(page!=='start'&&page!=='promo'&&page!=='inventory'){
+        if(page!=='start'&&page!=='promo'&&page!=='inventory'&&page!=='order'&&page!=='confirmation'){
           return false;
         }else{
           return true;
