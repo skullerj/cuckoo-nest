@@ -33,7 +33,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: var(--light-primary-color);
       }
       div.outer-items{
-        height: calc(100vh - 126px);
         width: 100%;
         overflow: auto;
         padding-bottom: 64px;
@@ -44,20 +43,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       span.b-subprice{
         @apply --paper-font-caption;
       }
+      div.top{
+        @apply --layout-vertical;
+        background-color: var(--secondary-color);
+        color: var(--on-secondary-text-color);
+      }
       paper-tab{
-        --paper-tab-ink: var(--dark-secondary-color);
+        --paper-tab-ink: var(--primary-color);
       }
       paper-tabs{
-        --paper-tabs-selection-bar-color:var(--dark-secondary-color);
-        background-color: var(--light-primary-color);
-        color: var(--primary-text-color);
+        --paper-tabs-selection-bar-color:var(--primary-color);
+        background-color: var(--secondary-color);
+        color: var(--on-secondary-text-color);
       }
     </style>
-    <paper-tabs selected="{{tab}}" attr-for-selected="tab">
-      <paper-tab tab="s">Solanas</paper-tab>
-      <paper-tab tab="c">Combos</paper-tab>
-      <paper-tab tab="e">Extras</paper-tab>
-    </paper-tabs>
+    <div class="top">
+      <div class="horizontal p1">
+        <span class="font-title">Arma tu pedido</span>
+        <div class="flex"></div>
+        <span class="font-caption">Paso 1/3</span>
+      </div>
+      <paper-tabs selected="{{tab}}" attr-for-selected="tab">
+        <paper-tab tab="s">Solanas</paper-tab>
+        <paper-tab tab="c">Combos</paper-tab>
+        <paper-tab tab="e">Extras</paper-tab>
+      </paper-tabs>
+    </div>
     <iron-pages selected="[[tab]]" attr-for-selected="tab">
       <section tab="s">
         <div class="outer-items app-grid">
@@ -84,7 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="bottom">
       <paper-icon-button icon="custom:chevron-left" class="self-center m1-r" on-tap="backPage"></paper-icon-button>
       <div class="vertical flex"></div>
-      <paper-button class="self-center" on-tap="nextPage">
+      <paper-button class="self-center primary" on-tap="nextPage" raised>
         <span>Yaff.. sigamos</span>
         <iron-icon icon="custom:chevron-right"></iron-icon>
       </paper-button>
@@ -105,7 +116,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         redirect('/location');
       }
       backPage(){
-        redirect('/items')
+        redirect('/')
       }
 
     }

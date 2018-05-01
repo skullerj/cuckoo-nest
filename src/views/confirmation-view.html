@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../redux/actions/order-actions.html">
@@ -25,6 +26,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply --layout-vertical;
         padding-bottom: 70px;
       }
+      div.top{
+        @apply --layout-vertical;
+        background-color: var(--secondary-color);
+        color: var(--on-secondary-text-color);
+      }
       div.info-item{
         background-color: #fff;
         margin: 8px 8px 0px 8px;
@@ -37,7 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       div.info-item .actions{
         @apply --layout-horizontal-reverse;
-        border-top: 1px solid rgba(0,0,0,0.3);
+        border-top: 1px solid rgba(0,0,0,0.2);
       }
       div.info-item .map{
         height: 300px;
@@ -72,17 +78,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-spinner-lite{
         --paper-spinner-color:var(--primary-color);
       }
+      input{
+        background-color : var(--secondary-color);
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 100%;
+        padding-right: 16px;
+        padding-left: 20px;
+        line-height: 40px;
+        border: none;
+        margin: 0;
+        font-size: 16px;
+        -webkit-appearance: none;
+        text-align: center;
+        color: var(--on-secondary-text-color);
+      }
     </style>
     <div class="outer">
+      <div class="top">
+        <div class="horizontal p1">
+          <span class="font-title">Confirma tu pedido</span>
+          <div class="flex"></div>
+          <span class="font-caption">Paso 3/3</span>
+        </div>
+      </div>
       <span class="info-title">Número</span>
       <div class="info-item">
-        <div class="info">
-          <div class="">
+        <div class="info" hidden$="[[phoneEditing]]">
+          <div>
             <span>[[client.phone]]</span>
           </div>
         </div>
+        <div class="info" hidden$="[[!phoneEditing]]">
+          <input placeholder="Número de Celular" type="text" class="m2-y">
+        </div>
         <div class="actions">
-          <paper-button class="primary">Cambiar</paper-button>
+          <paper-button class="primary" on-tap="_editPhone" hidden$="[[phoneEditing]]">Cambiar</paper-button>
+          <paper-button class="primary" on-tap="_savePhone" hidden$="[[!phoneEditing]]">Guardar</paper-button>
         </div>
       </div>
       <span class="info-title">Pedido</span>
@@ -106,7 +138,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </div>
         <div class="actions">
-          <paper-button class="primary">Cambiar</paper-button>
+          <a href="/items">
+            <paper-button class="primary">Cambiar</paper-button>
+          </a>
         </div>
       </div>
       <span class="info-title">Ubicación</span>
@@ -117,13 +151,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control disable-street-view-control disable-full-screen-control drag-events="true" id="map" zoom="17" additional-map-options='{"fullscreenControl":false,"zoomControl":false}' latitude="[[order.location.lat]]" longitude="[[order.location.lon]]"></google-map>
         </div>
         <div class="actions">
-          <paper-button class="primary">Cambiar</paper-button>
+          <a href="/location">
+            <paper-button class="primary">Cambiar</paper-button>
+          </a>
         </div>
       </div>
       <div class="bottom">
+        <paper-icon-button icon="custom:chevron-left" class="self-center m1-r" on-tap="backPage"></paper-icon-button>
         <div class="flex"></div>
         <paper-spinner-lite active="[[loading]]"></paper-spinner-lite>
-        <paper-button raised class="primary self-center" on-tap="submitOrder" disabled="[[loading]]">Confirmar pedido</paper-button>
+        <paper-button raised class="primary self-center" on-tap="submitOrder" disabled="[[loading]]">Yaf... confirmemos</paper-button>
       </div>
     </div>
 
@@ -139,6 +176,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             statePath:'client'
           },
           loading:{
+            type:Boolean,
+            value:false
+          },
+          phoneEditing:{
             type:Boolean,
             value:false
           }
@@ -166,6 +207,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.loading=false;
             console.error("Error adding document: ", error);
         });
+      }
+      _editPhone(){
+        this.phoneEditing=true;
+      }
+      _savePhone(){
+        this.phoneEditing=false;
+      }
+      backPage(){
+        redirect('/location');
       }
     }
 

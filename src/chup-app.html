@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-badge/paper-badge.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="elements/order-summary.html">
 <link rel="import" href="my-icons.html">
@@ -47,18 +48,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         --light-primary-color:#ff7043;
         --primary-color: #ff5722;
+        --on-primary-text-color:#fff;
         --dark-primary-color: #c41c00;
         --light-secondary-color:#607d8b;
         --secondary-color: #455a64;
+        --on-secondary-text-color:#fff;
         --dark-secondary-color:#263238;
-        --primary-text-color: rgba(0,0,0,0.6);
-        --white-primary-text-color: rgba(255,255,255,0.9);
-        --dark-primary-text-color: rgba(255,255,255,0.8);
-        --secondary-text-color: rgba(255,255,255,0.9);
+        --primary-text-color: rgba(0,0,0,0.87);
+        --secondary-text-color: rgba(0,0,0,0.54);
+        --disabled-text-color: rgba(0,0,0,0.38);
+        --divider-color: rgba(0,0,0,0.12);
         --accent-color:var(--secondary-color);
-
       }
-
       app-header {
         color: #fff;
         background-color: var(--primary-color);
@@ -92,7 +93,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --paper-badge-margin-left:-12px;
         --paper-badge-margin-bottom:-12px;
       }
-
     </style>
     <localstorage-manager></localstorage-manager>
     <app-location
@@ -117,9 +117,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <iron-image src="/images/logo.png" preload sizing="contain" class="logo"></iron-image>
             </a>
             <div class="spacer"></div>
-            <div style="display:inline-block">
-              <paper-icon-button icon="custom:shopping-cart" hidden$="[[hideToggle]]" drawer-toggle></paper-icon-button>
-              <paper-badge label="[[totalItems]]" hidden$="[[totalItems]]"></paper-badge>
+            <div style="display:inline-block;" >
+              <paper-icon-button icon="custom:shopping-cart" drawer-toggle hidden$="[[hideToggle]]"></paper-icon-button>
+              <paper-badge label="[[totalItems]]" hidden$="[[hideToggle]]"></paper-badge>
             </div>
           </app-toolbar>
         </app-header>
@@ -141,6 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </app-header-layout>
     </app-drawer-layout>
+    <paper-toast id="toast"></paper-toast>
 
   </template>
 
@@ -250,7 +251,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }else{
           return true;
         }
-
+      }
+      _showMessage(message,duration){
+        this.$.toast.text=message||'';
+        this.$.toast.duration=duration||5000;
+        if(this.$.toast.opened)this.$.toast.close();
+        this.$.toast.open();
       }
     }
 

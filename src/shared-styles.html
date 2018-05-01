@@ -98,7 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: inherit;
       }
       paper-button[raised].primary{
-        color: var(--dark-primary-text-color);
+        color: var(--on-primary-text-color);
         background-color: var(--primary-color);
       }
       paper-button.accent{
@@ -109,6 +109,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--dark-primary-text-color);
         background-color: var(--accent-color);
       }
+      a, a:active, a:visited, a:focus { color: var(--primary-color); text-decoration: none; }
+      a:hover { color: var(--primary-color); text-decoration: none; }
       /* Margins and paddings */
       .m1{
         margin: 0.5rem;
@@ -257,9 +259,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         bottom: 0px;
         left: 0px;
         width: 100%;
-        background-color: var(--light-secondary-color);
-        color: var(--secondary-text-color);
+        background-color: var(--secondary-color);
+        color: var(--on-secondary-text-color);
         @apply --layout-horizontal;
+        @apply --shadow-elevation-2dp;
       }
     </style>
   </template>

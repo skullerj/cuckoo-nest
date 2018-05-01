@@ -9,7 +9,8 @@
       }
       div.main{
         height: 150px;
-        background-color: white;
+        background-color: #fff;
+        border-radius: 2px;
         @apply --shadow-elevation-2dp;
         @apply --layout-horizontal;
       }
@@ -20,8 +21,6 @@
         width: 84px;
       }
       div.info-outer{
-        background-color: var(--secondary-color);
-        color: var(--secondary-text-color);
         @apply --layout-flex;
         @apply --layout-vertical;
       }
@@ -33,15 +32,11 @@
       div.controls{
         height: 50px;
         width: 100%;
-        border-top: 1px solid rgba(255,255,255,0.3);
-        color: var(--secondary-text-color);
+        border-top: 1px solid rgba(0,0,0,0.3);
         @apply --layout-horizontal;
       }
       div.flex{
         @apply --layout-flex;
-      }
-      paper-icon-button{
-
       }
       span.description{
         @apply --paper-font-body1;
@@ -50,6 +45,9 @@
         padding-left: 12px;
         @apply --layout-self-center;
         @apply --paper-font-headline;
+      }
+      paper-button{
+        color: var(--primary-color);
       }
     </style>
     <div class="main">
