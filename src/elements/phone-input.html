@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<dom-module id="phone-input">
+  <template>
+    <style>
+      :host{
+        display: block;
+        width: 100%;
+      }
+      input{
+        background-color : #fff;
+        box-sizing: border-box;
+        border-radius: 4px;
+        width: 100%;
+        padding-right: 16px;
+        padding-left: 20px;
+        line-height: 40px;
+        border: none;
+        margin: 0;
+        font-size: 16px;
+        -webkit-appearance: none;
+        text-align: center;
+        color: var(--primary-text-color);
+      }
+    </style>
+    <iron-input>
+      <input type="text" name="" value="">
+    </iron-input>
+
+  </template>
+  <script>
+    class PhoneInput extends Polymer.Element {
+      static get is(){
+        return 'phone-input';
+      }
+    }
+    customElements.define(PhoneInput.is,PhoneInput);
+  </script>
+</dom-module>

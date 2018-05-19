@@ -5,6 +5,7 @@
     "src/views/promo-view.html",
     "src/views/confirmation-view.html",
     "src/views/items-view.html",
+    "src/views/inventory-view.html",
     "src/views/location-view.html",
     "src/views/notfound-view.html",
     "src/views/order-view.html",
