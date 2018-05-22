@@ -1,7 +1,10 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<dom-module id="bundle-card">
-  <template>
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import {ReduxMixin} from '../redux/global-store.js';
+
+class BundleCard extends ReduxMixin(PolymerElement) {
+  static get template() {
+    return html`
     <style>
       :host{
         display: block;
@@ -58,42 +61,40 @@
           <span class="description">[[bundle.description]]</span>
         </div>
         <div class="controls">
-          <span class="price">$ [[bundle.price]]</span>
+          <span class="price">\$ [[bundle.price]]</span>
           <div class="flex"></div>
           <paper-button on-tap="addBundle">Agregar</paper-button>
         </div>
       </div>
     </div>
-  </template>
-  <script>
-    class BundleCard extends ReduxMixin(Polymer.Element) {
-      static get is(){
-        return 'bundle-card';
-      }
-      static get properties(){
-        return {
-          bundle:{
-            type:Object
-          }
-        }
-      }
-      static get observers(){
-        return ['_watchPhoto(bundle.photoURL)']
-      }
-      static get actions(){
-        return{
-          addBundle:function(bundleId){
-            return {type:'ADD_BUNDLE',bundle:bundleId}
-          }
-        }
-      }
-      addBundle(){
-        this.dispatch('addBundle',this.bundle.__id__);
-      }
-      _watchPhoto(photo){
-        this.shadowRoot.querySelector('.image').style.backgroundImage=`url('${photo}')`;
+`;
+  }
+
+  static get is(){
+    return 'bundle-card';
+  }
+  static get properties(){
+    return {
+      bundle:{
+        type:Object
       }
     }
-    customElements.define(BundleCard.is,BundleCard);
-  </script>
-</dom-module>
+  }
+  static get observers(){
+    return ['_watchPhoto(bundle.photoURL)']
+  }
+  static get actions(){
+    return{
+      addBundle:function(bundleId){
+        return {type:'ADD_BUNDLE',bundle:bundleId}
+      }
+    }
+  }
+  addBundle(){
+    this.dispatch('addBundle',this.bundle.__id__);
+  }
+  _watchPhoto(photo){
+    this.shadowRoot.querySelector('.image').style.backgroundImage=`url('${photo}')`;
+  }
+}
+customElements.define(BundleCard.is,BundleCard);

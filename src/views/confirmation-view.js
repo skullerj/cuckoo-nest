@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -6,18 +6,17 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+*/
+import {PolymerElement , html} from '@polymer/polymer/polymer-element.js';
 
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/google-map/google-map.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
-<link rel="import" href="../redux/actions/order-actions.html">
-<link rel="import" href="../shared-styles.html">
-
-<dom-module id="confirmation-view">
-  <template>
+import '@polymer/paper-input/paper-input.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-spinner/paper-spinner-lite.js';
+import {OrderActions} from '../redux/actions/order-actions.js';
+import '../shared-styles.js';
+class ConfirmationView extends OrderActions(PolymerElement) {
+  static get template() {
+    return html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -104,17 +103,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
       <span class="info-title">Número</span>
       <div class="info-item">
-        <div class="info" hidden$="[[phoneEditing]]">
+        <div class="info" hidden\$="[[phoneEditing]]">
           <div>
             <span>[[client.phone]]</span>
           </div>
         </div>
-        <div class="info" hidden$="[[!phoneEditing]]">
+        <div class="info" hidden\$="[[!phoneEditing]]">
           <input placeholder="Número de Celular" type="text" class="m2-y">
         </div>
         <div class="actions">
-          <paper-button class="primary" on-tap="_editPhone" hidden$="[[phoneEditing]]">Cambiar</paper-button>
-          <paper-button class="primary" on-tap="_savePhone" hidden$="[[!phoneEditing]]">Guardar</paper-button>
+          <paper-button class="primary" on-tap="_editPhone" hidden\$="[[phoneEditing]]">Cambiar</paper-button>
+          <paper-button class="primary" on-tap="_savePhone" hidden\$="[[!phoneEditing]]">Guardar</paper-button>
         </div>
       </div>
       <span class="info-title">Pedido</span>
@@ -148,7 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="map">
           <div class="map-over"></div>
           <iron-icon icon="custom:place" class="map-marker"></iron-icon>
-          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control disable-street-view-control disable-full-screen-control drag-events="true" id="map" zoom="17" additional-map-options='{"fullscreenControl":false,"zoomControl":false}' latitude="[[order.location.lat]]" longitude="[[order.location.lon]]"></google-map>
+          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control="" disable-street-view-control="" disable-full-screen-control="" drag-events="true" id="map" zoom="17" additional-map-options="{&quot;fullscreenControl&quot;:false,&quot;zoomControl&quot;:false}" latitude="[[order.location.lat]]" longitude="[[order.location.lon]]"></google-map>
         </div>
         <div class="actions">
           <a href="/location">
@@ -160,69 +159,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-icon-button icon="custom:chevron-left" class="self-center m1-r" on-tap="backPage"></paper-icon-button>
         <div class="flex"></div>
         <paper-spinner-lite active="[[loading]]"></paper-spinner-lite>
-        <paper-button raised class="primary self-center" on-tap="submitOrder" disabled="[[loading]]">Yaf... confirmemos</paper-button>
+        <paper-button raised="" class="primary self-center" on-tap="submitOrder" disabled="[[loading]]">Yaf... confirmemos</paper-button>
       </div>
     </div>
+`;
+  }
 
-  </template>
-
-  <script>
-    class ConfirmationView extends OrderActions(Polymer.Element) {
-      static get is() { return 'confirmation-view'; }
-      static get properties(){
-        return {
-          client:{
-            type:Object,
-            statePath:'client'
-          },
-          loading:{
-            type:Boolean,
-            value:false
-          },
-          phoneEditing:{
-            type:Boolean,
-            value:false
-          }
-        }
-      }
-      static get actions(){
-        return{
-          addPendant:function(orderId){
-            return {type:'ADD_PENDANT_ORDER',order:orderId}
-          },
-          resetOrder:function(){
-            return {type:'RESET_ORDER'};
-          }
-        }
-      }
-      submitOrder(){
-        this.loading=true;
-        var db = firebase.firestore();
-        var order = Object.assign({},this.order,{phone:this.client.phone,createdAt:(new Date).getTime()})
-        db.collection("order").add(order)
-        .then((docRef)=>{
-            this.loading=false;
-            redirect('/order/'+docRef.id);
-            this.dispatch('addPendant',docRef.id);
-            this.dispatch('resetOrder')
-            console.log("Document written with ID: ", docRef.id);
-        })
-        .catch((error)=>{
-            this.loading=false;
-            console.error("Error adding document: ", error);
-        });
-      }
-      _editPhone(){
-        this.phoneEditing=true;
-      }
-      _savePhone(){
-        this.phoneEditing=false;
-      }
-      backPage(){
-        redirect('/location');
+  static get is() { return 'confirmation-view'; }
+  static get properties(){
+    return {
+      client:{
+        type:Object,
+        statePath:'client'
+      },
+      loading:{
+        type:Boolean,
+        value:false
+      },
+      phoneEditing:{
+        type:Boolean,
+        value:false
       }
     }
+  }
+  static get actions(){
+    return{
+      addPendant:function(orderId){
+        return {type:'ADD_PENDANT_ORDER',order:orderId}
+      },
+      resetOrder:function(){
+        return {type:'RESET_ORDER'};
+      }
+    }
+  }
+  submitOrder(){
+    this.loading=true;
+    var db = firebase.firestore();
+    var order = Object.assign({},this.order,{phone:this.client.phone,createdAt:(new Date).getTime()})
+    db.collection("order").add(order)
+    .then((docRef)=>{
+        this.loading=false;
+        redirect('/order/'+docRef.id);
+        this.dispatch('addPendant',docRef.id);
+        this.dispatch('resetOrder')
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error)=>{
+        this.loading=false;
+        console.error("Error adding document: ", error);
+    });
+  }
+  _editPhone(){
+    this.phoneEditing=true;
+  }
+  _savePhone(){
+    this.phoneEditing=false;
+  }
+  backPage(){
+    redirect('/location');
+  }
+}
 
-    window.customElements.define(ConfirmationView.is, ConfirmationView);
-  </script>
-</dom-module>
+window.customElements.define(ConfirmationView.is, ConfirmationView);

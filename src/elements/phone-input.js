@@ -1,7 +1,9 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-input/iron-input.html">
-<dom-module id="phone-input">
-  <template>
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
+import '@polymer/iron-input/iron-input.js';
+ 
+class PhoneInput extends PolymerElement {
+  static get template() {
+    return html`
     <style>
       :host{
         display: block;
@@ -26,14 +28,11 @@
     <iron-input>
       <input type="text" name="" value="">
     </iron-input>
+`;
+  }
 
-  </template>
-  <script>
-    class PhoneInput extends Polymer.Element {
-      static get is(){
-        return 'phone-input';
-      }
-    }
-    customElements.define(PhoneInput.is,PhoneInput);
-  </script>
-</dom-module>
+  static get is(){
+    return 'phone-input';
+  }
+}
+customElements.define(PhoneInput.is,PhoneInput);

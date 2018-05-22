@@ -1,9 +1,12 @@
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../redux/actions/order-actions.html">
-<link rel="import" href="../shared-styles.html">
-<dom-module id="order-summary">
-  <template>
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/app-layout/app-toolbar/app-toolbar.js';
+import {OrderActions} from '../redux/actions/order-actions.js';
+import '../shared-styles.js';
+
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
+class OrderSummary extends OrderActions(PolymerElement) {
+  static get template() {
+    return html`
     <style include="shared-styles">
       :host{
         height: 100%;
@@ -44,7 +47,7 @@
     </style>
     <div class="outer">
       <app-toolbar>
-        <div main-title>Mi Pedido</div>
+        <div main-title="">Mi Pedido</div>
       </app-toolbar>
       <div class="inner">
         <span class="font-caption p1-x p1-t">Mi Número</span>
@@ -76,7 +79,7 @@
         </div>
         <div class="horizontal p1">
           <div class="flex"></div>
-          <span class="font-title">Total: $[[total]]</span>
+          <span class="font-title">Total: \$[[total]]</span>
         </div>
       </div>
 
@@ -85,38 +88,35 @@
         <paper-button>Cancelar Pedido</paper-button>
       </div>
     </div>
+`;
+  }
 
-  </template>
-  <script>
-    class OrderSummary extends OrderActions(Polymer.Element) {
-      static get is(){
-        return 'order-summary';
-      }
-      static get properties(){
-        return {
-          client:{
-            type:Object,
-            statePath:'client'
-          }
-        }
-      }
-      static get actions(){
-        return {
-          removeItem:(itemId)=>{
-            return {type:'REMOVE_ITEM',item:itemId};
-          },
-          removeBundle:(bundleId)=>{
-            return {type:'REMOVE_BUNDLE',bundle:bundleId};
-          }
-        }
-      }
-      removeItem(e){
-        this.dispatch('removeItem',e.model.__data.item.info.__id__);
-      }
-      removeBundle(e){
-        this.dispatch('removeBundle',e.model.__data.item.info.__id__);
+  static get is(){
+    return 'order-summary';
+  }
+  static get properties(){
+    return {
+      client:{
+        type:Object,
+        statePath:'client'
       }
     }
-    customElements.define(OrderSummary.is,OrderSummary);
-  </script>
-</dom-module>
+  }
+  static get actions(){
+    return {
+      removeItem:(itemId)=>{
+        return {type:'REMOVE_ITEM',item:itemId};
+      },
+      removeBundle:(bundleId)=>{
+        return {type:'REMOVE_BUNDLE',bundle:bundleId};
+      }
+    }
+  }
+  removeItem(e){
+    this.dispatch('removeItem',e.model.__data.item.info.__id__);
+  }
+  removeBundle(e){
+    this.dispatch('removeBundle',e.model.__data.item.info.__id__);
+  }
+}
+customElements.define(OrderSummary.is,OrderSummary);

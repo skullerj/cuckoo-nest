@@ -1,7 +1,10 @@
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<dom-module id="item-card">
-  <template>
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import {ReduxMixin} from '../redux/global-store.js';
+
+class ItemCard extends ReduxMixin(PolymerElement) {
+  static get template() {
+    return html`
     <style>
       :host{
         display: block;
@@ -58,42 +61,40 @@
           <span class="description">[[item.description]]</span>
         </div>
         <div class="controls">
-          <span class="price">$ [[item.price]]</span>
+          <span class="price">\$ [[item.price]]</span>
           <div class="flex"></div>
           <paper-button on-tap="addItem">Agregar</paper-button>
         </div>
       </div>
     </div>
-  </template>
-  <script>
-    class ItemCard extends ReduxMixin(Polymer.Element) {
-      static get is(){
-        return 'item-card';
-      }
-      static get properties(){
-        return {
-          item:{
-            type:Object
-          }
-        }
-      }
-      static get observers(){
-        return ['_watchPhoto(item.photoURL)']
-      }
-      static get actions(){
-        return{
-          addItem:function(itemId){
-            return {type:'ADD_ITEM',item:itemId}
-          }
-        }
-      }
-      addItem(){
-        this.dispatch('addItem',this.item.__id__);
-      }
-      _watchPhoto(photo){
-        this.shadowRoot.querySelector('.image').style.backgroundImage=`url('${photo}')`;
+`;
+  }
+
+  static get is(){
+    return 'item-card';
+  }
+  static get properties(){
+    return {
+      item:{
+        type:Object
       }
     }
-    customElements.define(ItemCard.is,ItemCard);
-  </script>
-</dom-module>
+  }
+  static get observers(){
+    return ['_watchPhoto(item.photoURL)']
+  }
+  static get actions(){
+    return{
+      addItem:function(itemId){
+        return {type:'ADD_ITEM',item:itemId}
+      }
+    }
+  }
+  addItem(){
+    this.dispatch('addItem',this.item.__id__);
+  }
+  _watchPhoto(photo){
+    this.shadowRoot.querySelector('.image').style.backgroundImage=`url('${photo}')`;
+  }
+}
+customElements.define(ItemCard.is,ItemCard);

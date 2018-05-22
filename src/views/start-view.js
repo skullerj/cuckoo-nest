@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -6,16 +6,18 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+*/
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
 
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../elements/phone-input.html">
-<link rel="import" href="../shared-styles.html">
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-button/paper-button.js';
+import '../elements/phone-input.js';
+import '../shared-styles.js';
+import {ReduxMixin,GAMixin} from '../redux/global-store.js';
 
-<dom-module id="start-view">
-  <template>
+class StartView extends GAMixin(ReduxMixin(PolymerElement)) {
+  static get template() {
+    return html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -42,42 +44,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div class="initial">
       <h1>Haz que te <br> <b class="primary-text">rinda</b> <br>  la vaca... </h1>
       <phone-input></phone-input>
-      <paper-button raised class="primary self-center" on-tap="nextPage">
+      <paper-button raised="" class="primary self-center" on-tap="nextPage">
         <span>Yaff... Chupemos</span>
         <iron-icon icon="custom:chevron-right"></iron-icon>
       </paper-button>
-      <a hidden$="[[!phone]]" class="self-center m1-y" href="/items">Pedir como [[phone]]</a>
+      <a hidden\$="[[!phone]]" class="self-center m1-y" href="/items">Pedir como [[phone]]</a>
       <div class="flex"></div>
       <span>*Entrega gratuita en el Norte de Quito!</span>
     </div>
-  </template>
+`;
+  }
 
-  <script>
-    class StartView extends GAMixin(ReduxMixin(Polymer.Element)) {
-      static get is() { return 'start-view'; }
-      static get properties(){
-        return{
-          phone:{
-            type:String,
-            value:null,
-            statePath:'client.phone'
-          }
-        }
+  static get is() { return 'start-view'; }
+  static get properties(){
+    return{
+      phone:{
+        type:String,
+        value:null,
+        statePath:'client.phone'
       }
-      static get actions(){
-        return{
-          setPhone:function(phone){
-            return {type:'SET_PHONE',phone:phone}
-          }
-        }
-      }
-      nextPage(){
-        this.dispatch('setPhone',this.$.phoneInput.value);
-        redirect('items');
-      }
-
     }
+  }
+  static get actions(){
+    return{
+      setPhone:function(phone){
+        return {type:'SET_PHONE',phone:phone}
+      }
+    }
+  }
+  nextPage(){
+    this.dispatch('setPhone',this.$.phoneInput.value);
+    redirect('items');
+  }
+}
 
-    window.customElements.define(StartView.is, StartView);
-  </script>
-</dom-module>
+window.customElements.define(StartView.is, StartView);

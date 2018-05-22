@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -6,21 +6,19 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+*/
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
 
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/star-rating/star-rating.html">
-<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
-<link rel="import" href="../../bower_components/google-map/google-map-marker.html">
-<link rel="import" href="../../bower_components/google-map/google-map.html">
-<link rel="import" href="../elements/order-info.html">
-<link rel="import" href="../shared-styles.html">
+import '@polymer/iron-pages/iron-pages.js';
+import '@polymer/app-route/app-route.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-spinner/paper-spinner-lite.js';
+import '../elements/order-info.js';
+import '../shared-styles.js';
 
-<dom-module id="order-view">
-  <template>
+class OrderView extends PolymerElement {
+  static get template() {
+    return html`
     <style include="shared-styles">
       :host {
         display: block;
@@ -70,11 +68,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-align: center;
       }
     </style>
-    <app-route
-      route="{{route}}"
-      pattern="/:id"
-      data="{{data}}"
-    ></app-route>
+    <app-route route="{{route}}" pattern="/:id" data="{{data}}"></app-route>
     <order-info order-id="[[orderId]]" order="{{order}}" id="orderInfo"></order-info>
     <iron-pages selected="[[order.state]]" attr-for-selected="state">
       <section state="new" class="vertical">
@@ -82,13 +76,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="card">
           <span class="s-text">Espera la llamada al <b>[[order.phone]]</b> para confirmar tu orden. En esta página podrás ver actualizaciones en tiempo real.</span>
         </div>
-        <paper-button class="accent self-center m1-y" raised >Cancelar Orden</paper-button>
+        <paper-button class="accent self-center m1-y" raised="">Cancelar Orden</paper-button>
       </section>
       <section state="confirmed" class="vertical">
         <span class="title">Orden Confirmada</span>
         <div class="map-card">
           <span class="p1 s-text">Espera la orden en el punto de entrega especificado. Nuestro repartidor te llamará cuando esté cerca.</span>
-          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control disable-street-view-control disable-full-screen-control zoom="17" additional-map-options='{"fullscreenControl":false,"zoomControlOptions":{"position":4}}' latitude="[[order.location.lat]]" longitude="[[order.location.lon]]" >
+          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control="" disable-street-view-control="" disable-full-screen-control="" zoom="17" additional-map-options="{&quot;fullscreenControl&quot;:false,&quot;zoomControlOptions&quot;:{&quot;position&quot;:4}}" latitude="[[order.location.lat]]" longitude="[[order.location.lon]]">
             <google-map-marker latitude="[[order.location.lat]]" longitude="[[order.location.lon]]" draggable="false"></google-map-marker>
           </google-map>
         </div>
@@ -96,19 +90,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <section state="delivered" class="vertical">
         <span class="title">Orden Entregada</span>
         <div class="card">
-          <div class="vertical text-center" hidden$="[[orderRanked]]">
+          <div class="vertical text-center" hidden\$="[[orderRanked]]">
             <span class="s-text">Gracias por utilizar nuestro servicio. Por favor ayúdanos calificando tu experiencia.</span>
-            <star-rating rating="{{order.rating}}" hidden$="[[loading]]" class="m1-y"></star-rating>
-            <paper-spinner-lite active hidden$="[[!loading]]" class="self-center"></paper-spinner-lite>
+            <star-rating rating="{{order.rating}}" hidden\$="[[loading]]" class="m1-y"></star-rating>
+            <paper-spinner-lite active="" hidden\$="[[!loading]]" class="self-center"></paper-spinner-lite>
           </div>
-          <div class="vertical text-center" hidden$="[[!orderRanked]]">
+          <div class="vertical text-center" hidden\$="[[!orderRanked]]">
             <span class="s-text">¡Gracias!</span>
             <span class="s-text "> Tus comentarios nos ayudan a mejorar :)</span>
             <span class="s-text self-center m1-y greetings">¡Feliz chupe!</span>
           </div>
         </div>
         <a href="/" class="self-center">
-          <paper-button class="primary self-center m1-y" raised >Pedir denuevo</paper-button>
+          <paper-button class="primary self-center m1-y" raised="">Pedir denuevo</paper-button>
         </a>
       </section>
       <section state="canceled">
@@ -118,59 +112,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </section>
     </iron-pages>
-  </template>
-  <script>
-    class OrderView extends Polymer.Element {
-      static get is() { return 'order-view'; }
-      static get properties(){
-        return{
-          orderId:{
-            type:String
-          },
-          order:Object,
-          orderRanked:{
-            type:Boolean,
-            value:false
-          },
-          loading:{
-            type:Boolean,
-            value:false
-          }
-        }
-      }
-      static get observers() {
-        return [
-          '_orderIdChanged(data.id)','_orderRatingChanged(order.rating)'
-        ];
-      }
-      _orderIdChanged(id){
-        this.orderId=id||undefined;
-      }
-      _orderRatingChanged(rating){
-        if(!rating)return;
-        if(rating==0){
-          this.orderRanked=false;
-          return;
-        }
-        if(rating>0){
-          this.loading=false;
-          this.orderRanked=true;
-          return;
-        }
-        this.loading=true;
-        this.$.orderInfo.orderRef.update({rating:rating})
-        .then((r)=>{
-          message('Gracias por tu comentario')
-          this.orderRanked=true;
-          this.loading=false;
-        })
-        .catch((e)=>{
-          this.loading=false;
-        })
-      }
+`;
+  }
 
+  static get is() { return 'order-view'; }
+  static get properties(){
+    return{
+      orderId:{
+        type:String
+      },
+      order:Object,
+      orderRanked:{
+        type:Boolean,
+        value:false
+      },
+      loading:{
+        type:Boolean,
+        value:false
+      }
     }
+  }
+  static get observers() {
+    return [
+      '_orderIdChanged(data.id)','_orderRatingChanged(order.rating)'
+    ];
+  }
+  _orderIdChanged(id){
+    this.orderId=id||undefined;
+  }
+  _orderRatingChanged(rating){
+    if(!rating)return;
+    if(rating==0){
+      this.orderRanked=false;
+      return;
+    }
+    if(rating>0){
+      this.loading=false;
+      this.orderRanked=true;
+      return;
+    }
+    this.loading=true;
+    this.$.orderInfo.orderRef.update({rating:rating})
+    .then((r)=>{
+      message('Gracias por tu comentario')
+      this.orderRanked=true;
+      this.loading=false;
+    })
+    .catch((e)=>{
+      this.loading=false;
+    })
+  }
+}
 
-    window.customElements.define(OrderView.is, OrderView);
-  </script>
-</dom-module>
+window.customElements.define(OrderView.is, OrderView);

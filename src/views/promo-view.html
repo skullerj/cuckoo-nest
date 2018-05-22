@@ -8,10 +8,10 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../shared-styles.html">
+<script type="module" src="@polymer/polymer/polymer-element.js"></script>
+<script type="module" src="@polymer/iron-icon/iron-icon.js"></script>
+<script type="module" src="@polymer/paper-button/paper-button.js"></script>
+<script type="module" src="../shared-styles.js"></script>
 
 <dom-module id="promo-view">
   <template>
@@ -88,14 +88,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
   </template>
 
-  <script>
-    class PromoView extends GAMixin(ReduxMixin(Polymer.Element)) {
-      static get is() { return 'promo-view'; }
-      nextPage(){
-        redirect('items');
-      }
-    }
+  <script type="module">
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/paper-button/paper-button.js';
+import '../shared-styles.js';
+import '../redux/global-store.js';
 
-    window.customElements.define(PromoView.is, PromoView);
-  </script>
+class PromoView extends GAMixin(ReduxMixin(PolymerElement)) {
+  static get is() { return 'promo-view'; }
+  nextPage(){
+    redirect('items');
+  }
+}
+
+window.customElements.define(PromoView.is, PromoView);
+</script>
 </dom-module>

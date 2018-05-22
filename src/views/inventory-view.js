@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -6,15 +6,16 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+*/
+import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
 
-<link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
-<link rel="import" href="../../bower_components/iron-image/iron-image.html">
-<link rel="import" href="../shared-styles.html">
-
-<dom-module id="inventory-view">
-  <template>
+import '@polymer/app-layout/app-grid/app-grid-style.js';
+import '@polymer/iron-image/iron-image.js';
+import '../shared-styles.js';
+ 
+class InventoryView extends PolymerElement {
+  static get template() {
+    return html`
     <style include="shared-styles app-grid-style">
       :host {
         display: block;
@@ -101,7 +102,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <span class="title">Nuestros Tragos</span>
       <div class="inventory-outer">
         <div class="inventory-card">
-          <iron-image src="/images/bottles/Norteno-100.jpg" preload sizing="contain"></iron-image>
+          <iron-image src="/images/bottles/Norteno-100.jpg" preload="" sizing="contain"></iron-image>
           <div class="vertical">
             <div class="info">
               <span class="font-caption">Aguardiente</span>
@@ -112,14 +113,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
             <div class="flex"></div>
             <div class="vertical bordered">
-              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&text=Hola%2C%20Porfa%20ay%C3%BAdame%20con%20Norte%C3%B1o%20">
+              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&amp;text=Hola%2C%20Porfa%20ay%C3%BAdame%20con%20Norte%C3%B1o%20">
                 <paper-button class="primary">Pedir</paper-button>
               </a>
             </div>
           </div>
         </div>
         <div class="inventory-card">
-          <iron-image src="/images/bottles/RonAbuelo-100.jpg" preload sizing="contain"></iron-image>
+          <iron-image src="/images/bottles/RonAbuelo-100.jpg" preload="" sizing="contain"></iron-image>
           <div class="vertical">
             <div class="info">
               <span class="font-caption">Ron</span>
@@ -130,14 +131,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
             <div class="flex"></div>
             <div class="vertical bordered">
-              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&text=Hola%2C%20Ay%C3%BAdame%20con%20un%20Ron%20Abuelo">
+              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&amp;text=Hola%2C%20Ay%C3%BAdame%20con%20un%20Ron%20Abuelo">
                 <paper-button class="primary">Pedir</paper-button>
               </a>
             </div>
           </div>
         </div>
         <div class="inventory-card">
-          <iron-image src="/images/bottles/RonlaCueva-100.jpg" preload sizing="contain"></iron-image>
+          <iron-image src="/images/bottles/RonlaCueva-100.jpg" preload="" sizing="contain"></iron-image>
           <div class="vertical">
             <div class="info">
               <span class="font-caption">Ron</span>
@@ -148,14 +149,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
             <div class="flex"></div>
             <div class="vertical bordered">
-              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&text=Hola%2C%20ay%C3%BAdame%20con%20un%20Ron%20La%20Cueva">
+              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&amp;text=Hola%2C%20ay%C3%BAdame%20con%20un%20Ron%20La%20Cueva">
                 <paper-button class="primary">Pedir</paper-button>
               </a>
             </div>
           </div>
         </div>
         <div class="inventory-card">
-          <iron-image src="/images/bottles/Smirnoff-100.jpg" preload sizing="contain"></iron-image>
+          <iron-image src="/images/bottles/Smirnoff-100.jpg" preload="" sizing="contain"></iron-image>
           <div class="vertical">
             <div class="info">
               <span class="font-caption">Vodka</span>
@@ -166,7 +167,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
             <div class="flex"></div>
             <div class="vertical bordered">
-              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&text=Hola%2C%20ay%C3%BAdame%20con%20Smirnoff">
+              <a class="self-end" target="_blank" href="https://api.whatsapp.com/send?phone=593998093257&amp;text=Hola%2C%20ay%C3%BAdame%20con%20Smirnoff">
                 <paper-button class="primary">Pedir</paper-button>
               </a>
             </div>
@@ -175,30 +176,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="other">
           <div class="info">
             <span class="font-display1">¿No te gustan estos tragos?</span>
-            <a class="self-end" target="_blank" href="https://goo.gl/forms/Db5rckCRax87JMHT2">Ayúdanos a elegir y gana $20</a>
+            <a class="self-end" target="_blank" href="https://goo.gl/forms/Db5rckCRax87JMHT2">Ayúdanos a elegir y gana \$20</a>
           </div>
         </div>
       </div>
     </div>
+`;
+  }
 
+  static get is() { return 'inventory-view'; }
+  static get properties(){
+    return {
 
-  </template>
-
-  <script>
-    class InventoryView extends Polymer.Element {
-      static get is() { return 'inventory-view'; }
-      static get properties(){
-        return {
-
-        }
-      }
-      connectedCallback(){
-        super.connectedCallback();
-        document.title='Nuestro Inventario | Chupemos.com';
-        document.querySelector('meta[name=description]').content='El inventario de nuestros licores. Entrega a domicilio gratuita en el norte de Quito.';
-      }
     }
+  }
+  connectedCallback(){
+    super.connectedCallback();
+    document.title='Nuestro Inventario | Chupemos.com';
+    document.querySelector('meta[name=description]').content='El inventario de nuestros licores. Entrega a domicilio gratuita en el norte de Quito.';
+  }
+}
 
-    window.customElements.define(InventoryView.is, InventoryView);
-  </script>
-</dom-module>
+window.customElements.define(InventoryView.is, InventoryView);
