@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
+import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
@@ -54,6 +55,14 @@ const firebaseConfig = {
     messagingSenderId: "480039852111"
   }
 };
+// Gesture events like tap and track generated from touch will not be
+// preventable, allowing for better scrolling performance.
+setPassiveTouchGestures(true);
+
+// Set Polymer's root path to the same value we passed to our service worker
+// in `index.html`.
+setRootPath(window.AppGlobals.rootPath);
+
 class ChupApp extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
@@ -228,13 +237,8 @@ class ChupApp extends ReduxMixin(PolymerElement) {
     if(page==='start'){
       return;
     }
-    // Load page import on demand. Show 404 page if fails
-    var resolvedPageUrl = this.resolveUrl('views/' + page + '-view.html');
-    importHref(
-        resolvedPageUrl,
-        null,
-        this._showPage404.bind(this),
-        true);
+    var href='./views/'+page+'-view.js';
+    import(href);
   }
 
   _showPage404() {
