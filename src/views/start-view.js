@@ -43,7 +43,7 @@ class StartView extends ReduxMixin(PolymerElement) {
     </style>
     <div class="initial">
       <h1>Haz que te <br> <b class="primary-text">rinda</b> <br>  la vaca... </h1>
-      <phone-input></phone-input>
+      <phone-input id="phoneInput"></phone-input>
       <paper-button raised="" class="primary self-center" on-tap="nextPage">
         <span>Yaff... Chupemos</span>
         <iron-icon icon="custom:chevron-right"></iron-icon>
@@ -73,8 +73,10 @@ class StartView extends ReduxMixin(PolymerElement) {
     }
   }
   nextPage(){
-    this.dispatch('setPhone',this.$.phoneInput.value);
-    redirect('items');
+    if(this.$.phoneInput.validate()){
+      this.dispatch('setPhone',this.$.phoneInput.value);
+      redirect('/items');
+    }
   }
 }
 

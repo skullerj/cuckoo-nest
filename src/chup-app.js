@@ -72,6 +72,8 @@ class ChupApp extends ReduxMixin(PolymerElement) {
         --disabled-text-color: rgba(0,0,0,0.38);
         --divider-color: rgba(0,0,0,0.12);
         --accent-color:var(--secondary-color);
+        --error-color:#d50000;
+        --success-color:#22ff56;
       }
       app-header {
         color: #fff;
