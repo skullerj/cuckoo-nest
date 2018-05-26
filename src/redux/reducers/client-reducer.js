@@ -1,4 +1,4 @@
-const client = (state={
+export const client = (state={
   phone:undefined,
   locations:[],
   pendantOrders:[]
@@ -23,7 +23,7 @@ const client = (state={
         }
       },[]);
       return Object.assign({},state,{pendantOrders:newOrders});
-      break;  
+      break;
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-const items=(state=[],action)=>{
+export const items=(state=[],action)=>{
   switch (action.type) {
     case 'LOAD_ITEMS':
       return [...action.items];
@@ -7,7 +7,7 @@ const items=(state=[],action)=>{
       return state;
   }
 };
-const bundles=(state=[],action)=>{
+export const bundles=(state=[],action)=>{
   switch (action.type) {
     case 'LOAD_BUNDLES':
       return [...action.bundles];

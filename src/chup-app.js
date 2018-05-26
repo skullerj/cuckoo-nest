@@ -25,7 +25,7 @@ import '@polymer/paper-badge/paper-badge.js';
 import '@polymer/paper-toast/paper-toast.js';
 import './elements/order-summary.js';
 import './my-icons.js';
-import {GAMixin,ReduxMixin} from './redux/global-store.js';
+import {ReduxMixin} from './redux/global-store.js';
 import './elements/localstorage-manager.js';
 import './elements/client-info.js';
 import './elements/items-data.js';
@@ -54,7 +54,7 @@ const firebaseConfig = {
     messagingSenderId: "480039852111"
   }
 };
-class ChupApp extends GAMixin(ReduxMixin(PolymerElement)) {
+class ChupApp extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
     <style>
@@ -180,6 +180,14 @@ class ChupApp extends GAMixin(ReduxMixin(PolymerElement)) {
     return [
       '_routePageChanged(routeData.page)',
     ];
+  }
+
+  static get actions(){
+    return{
+      changePage:(page)=>{
+        return {type:'PAGE_CHANGE',page:page};
+      }
+    }
   }
 
   connectedCallback(){

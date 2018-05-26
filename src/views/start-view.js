@@ -13,9 +13,9 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-button/paper-button.js';
 import '../elements/phone-input.js';
 import '../shared-styles.js';
-import {ReduxMixin,GAMixin} from '../redux/global-store.js';
+import {ReduxMixin} from '../redux/global-store.js';
 
-class StartView extends GAMixin(ReduxMixin(PolymerElement)) {
+class StartView extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
     <style include="shared-styles">

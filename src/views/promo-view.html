@@ -95,7 +95,7 @@ import '@polymer/paper-button/paper-button.js';
 import '../shared-styles.js';
 import '../redux/global-store.js';
 
-class PromoView extends GAMixin(ReduxMixin(PolymerElement)) {
+class PromoView extends ReduxMixin(PolymerElement) {
   static get is() { return 'promo-view'; }
   nextPage(){
     redirect('items');

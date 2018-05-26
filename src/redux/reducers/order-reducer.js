@@ -17,7 +17,7 @@ const initialOrder={
   rating:0,
   state:'new'
 };
-const order = (state=initialOrder,action)=>{
+export const order = (state=initialOrder,action)=>{
   switch (action.type) {
     case 'LOAD_ORDER':
       return Object.assign({},initialOrder,action.order);
