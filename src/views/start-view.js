@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
 
-import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-image/iron-image.js';
 import '@polymer/paper-button/paper-button.js';
 import '../elements/phone-input.js';
 import '../shared-styles.js';
@@ -39,14 +39,16 @@ class StartView extends ReduxMixin(PolymerElement) {
       .primary-text{
         color: var(--primary-color);
       }
-
+      iron-image{
+        width: 150px;
+        height: 25px;
+      }
     </style>
     <div class="initial">
       <h1>Haz que te <br> <b class="primary-text">rinda</b> <br>  la vaca... </h1>
       <phone-input id="phoneInput"></phone-input>
       <paper-button raised="" class="primary self-center" on-tap="nextPage">
-        <span>Yaff... Chupemos</span>
-        <iron-icon icon="custom:chevron-right"></iron-icon>
+        <iron-image src="/images/buttons/chupemos.png" sizing="contain"></iron-image>
       </paper-button>
       <a hidden\$="[[!phone]]" class="self-center m1-y" href="/items">Pedir como [[phone]]</a>
       <div class="flex"></div>

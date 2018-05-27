@@ -30,6 +30,7 @@ import {ReduxMixin} from './redux/global-store.js';
 import './elements/localstorage-manager.js';
 import './elements/client-info.js';
 import './elements/items-data.js';
+import './elements/orders-data.js';
 import './views/start-view.js';
 import './views/confirmation-view.js';
 import './views/items-view.js';
@@ -37,24 +38,7 @@ import './views/location-view.js';
 import './views/notfound-view.js';
 import './views/order-view.js';
 import './views/inventory-view.js';
-const firebaseConfig = {
-  prod:{
-    apiKey: "AIzaSyDYnUpB1FcnU7jmr6cvIkp8_YM9QlPufGQ",
-    authDomain: "chupemos-193122.firebaseapp.com",
-    databaseURL: "https://chupemos-193122.firebaseio.com",
-    projectId: "chupemos-193122",
-    storageBucket: "chupemos-193122.appspot.com",
-    messagingSenderId: "760631908691"
-  },
-  test:{
-    apiKey: "AIzaSyC2Bzmix1jIP3jBLxM8QMvN1YkR23y8ZIo",
-    authDomain: "chupemos-stag.firebaseapp.com",
-    databaseURL: "https://chupemos-stag.firebaseio.com",
-    projectId: "chupemos-stag",
-    storageBucket: "chupemos-stag.appspot.com",
-    messagingSenderId: "480039852111"
-  }
-};
+
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
 setPassiveTouchGestures(true);
@@ -121,7 +105,8 @@ class ChupApp extends ReduxMixin(PolymerElement) {
     <localstorage-manager></localstorage-manager>
     <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
     </app-location>
-
+    <items-data></items-data>
+    <orders-data></orders-data>
     <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
     </app-route>
     <app-drawer-layout force-narrow="">
@@ -207,22 +192,11 @@ class ChupApp extends ReduxMixin(PolymerElement) {
       this._showMessage(e.detail.message,e.detail.duration);
     });
 
-    var config = firebaseConfig['test'];
-    if(window.location.hostname==='chupemos.com'){
-      config = firebaseConfig['prod'];
-    }
-    var fa=document.createElement('firebase-app');
-    fa.setAttribute('auth-domain',config.authDomain);
-    fa.setAttribute('database-url',config.databaseURL);
-    fa.setAttribute('api-key',config.apiKey);
-    fa.setAttribute('storage-bucket',config.storageBucket);
-    fa.setAttribute('messaging-sender-id',config.messagingSenderId);
-    fa.setAttribute('project-id',config.projectId);
-    this.appendChild(fa);
-    var clientInfo=document.createElement('client-info');
-    this.appendChild(clientInfo);
-    var itemsData=document.createElement('items-data');
-    this.appendChild(itemsData);
+
+    // var clientInfo=document.createElement('client-info');
+    // this.appendChild(clientInfo);
+    // var itemsData=document.createElement('items-data');
+    // this.appendChild(itemsData);
   }
 
   _routePageChanged(page) {

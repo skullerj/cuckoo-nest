@@ -1,6 +1,6 @@
 import {client} from './client-reducer.js';
 import {items,bundles} from './items-reducer.js';
-import {order} from './order-reducer.js';
+import {order,oldOrders} from './order-reducer.js';
 
 
 const page = (state='start',action)=>{
@@ -32,6 +32,7 @@ export default (state={},action)=>{
     order:order(state.order,action),
     client:client(state.client,action),
     items:items(state.items,action),
-    bundles:bundles(state.bundles,action)
+    bundles:bundles(state.bundles,action),
+    oldOrders:oldOrders(state.oldOrders,action)
   }
 };

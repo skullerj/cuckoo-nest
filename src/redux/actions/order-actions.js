@@ -16,20 +16,41 @@ export const OrderActions = (parent)=>{
           statePath:'order'
         },
         items:{
-          type:Array,
+          type:Object,
           statePath:'items'
         },
-        bundles:{
-          type:Array,
-          statePath:'bundles'
-        },
-        pricesMap:{
+        itemsArray:{
           type:Array,
           statePath:(state)=>{
-            return state.items.reduce((res,item)=>{
-              res[item.__id__]=item.price;
-              return res;
-            },{});
+            var result = [];
+            Object.keys(state.items).forEach((key)=>{
+              result.push(Object.assign({},state.items[key],{id:key}));
+            });
+            return result;
+          }
+        },
+        bundles:{
+          type:Object,
+          statePath:'bundles'
+        },
+        bundlesArray:{
+          type:Array,
+          statePath:(state)=>{
+            var result = [];
+            Object.keys(state.bundles).forEach((key)=>{
+              result.push(Object.assign({},state.bundles[key],{id:key}));
+            });
+            return result;
+          }
+        },
+        prices:{
+          type:Array,
+          statePath:(state)=>{
+            var prices={};
+            Object.keys(state.items).forEach((key)=>{
+              prices[key]=state.items[key].price;
+            });
+            return prices;
           }
         },
         total:{
@@ -37,23 +58,11 @@ export const OrderActions = (parent)=>{
           statePath:(state)=>{
             var order=state.order,
                 result=0;
-            //Avoid computation when there is no items
-            if(order.items.length===0&&order.bundles.length===0){
-              return 0;
-            }
-            var itemPriceMap=state.items.reduce((res,item)=>{
-              res[item.__id__]=item.price;
-              return res;
-            },{});
-            var bundlePriceMap=state.bundles.reduce((res,bundle)=>{
-              res[bundle.__id__]=bundle.price;
-              return res;
-            },{});
             order.items.forEach((item)=>{
-              result+=itemPriceMap[item];
+              result+=state.items[item].price;
             });
             order.bundles.forEach((bundle)=>{
-              result+=bundlePriceMap[bundle];
+              result+=state.bundles[item].price;
             });
             return result;
           }
@@ -61,24 +70,9 @@ export const OrderActions = (parent)=>{
         orderItems:{
           type:Array,
           statePath:(state)=>{
-            if(state.order.items.length===0){
-              return [];
-            }
-            var itemMap=state.items.reduce((res,item)=>{
-              res[item.__id__]=item;
-              return res;
-            },{});
-            var qty = state.order.items.reduce((res,item)=>{
-              res[item]=res[item]||0;
-              res[item]=res[item]+1;
-              return res;
-            },{});
             var result = [];
-            Object.keys(qty).forEach((key)=>{
-              result.push({
-                info:itemMap[key],
-                qty:qty[key],
-              });
+            state.order.items.forEach((key)=>{
+              result.push(Object.assign({},state.items[key],{id:key}));
             });
             return result;
           }
@@ -86,24 +80,9 @@ export const OrderActions = (parent)=>{
         orderBundles:{
           type:Array,
           statePath:(state)=>{
-            if(state.order.bundles.length===0){
-              return [];
-            }
-            var bundleMap=state.bundles.reduce((res,item)=>{
-              res[item.__id__]=item;
-              return res;
-            },{});
-            var qty = state.order.bundles.reduce((res,item)=>{
-              res[item]=res[item]||0;
-              res[item]=res[item]+1;
-              return res;
-            },{});
             var result = [];
-            Object.keys(qty).forEach((key)=>{
-              result.push({
-                info:bundleMap[key],
-                qty:qty[key],
-              });
+            state.order.bundles.forEach((key)=>{
+              result.push(Object.assign({},state.bundles[key],{id:key}));
             });
             return result;
           }

@@ -71,21 +71,21 @@ class ItemsView extends OrderActions(PolymerElement) {
     <iron-pages selected="[[tab]]" attr-for-selected="tab">
       <section tab="s">
         <div class="outer-items app-grid">
-          <template is="dom-repeat" items="[[items]]">
+          <template is="dom-repeat" items="[[itemsArray]]">
             <item-card item="[[item]]"> </item-card>
           </template>
         </div>
       </section>
       <section tab="c">
         <div class="outer-items app-grid">
-          <template is="dom-repeat" items="[[bundles]]">
+          <template is="dom-repeat" items="[[bundlesArray]]">
             <bundle-card bundle="[[item]]"></bundle-card>
           </template>
         </div>
       </section>
       <section tab="e">
         <div class="outer-items app-grid">
-          <template is="dom-repeat" items="[[bundles]]">
+          <template is="dom-repeat" items="[[bundlesArray]]">
             <item-card item="[[item]]"></item-card>
           </template>
         </div>
@@ -108,7 +108,8 @@ class ItemsView extends OrderActions(PolymerElement) {
       tab:{
         type:String,
         value:'s'
-      }
+      },
+
     }
   }
   nextPage(){

@@ -13,202 +13,10 @@ import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-spinner/paper-spinner-lite.js';
 import '../shared-styles.js';
+import '../elements/google-map.js';
 import {ReduxMixin} from '../redux/global-store.js';
 
-const mapStyles=[
-  {
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#f5f5f5"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#616161"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#f5f5f5"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#bdbdbd"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#eeeeee"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#e5e5e5"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#9e9e9e"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#ffffff"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "road.arterial",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#dadada"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#616161"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#9e9e9e"
-      }
-    ]
-  },
-  {
-    "featureType": "transit",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.line",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#e5e5e5"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.station",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#eeeeee"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#c9c9c9"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#9e9e9e"
-      }
-    ]
-  }
-]
+
 class LocationView extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
@@ -285,15 +93,7 @@ class LocationView extends ReduxMixin(PolymerElement) {
         height: 100%;
         width: 100%;
       }
-      iron-icon.map-marker{
-        position: absolute;
-        top: calc(50% - 20px);
-        left: calc(50% - 20px);
-        color: var(--primary-color);
-        height: 40px;
-        width: 40px;
-        z-index: 100;
-      }
+
       div.directions-container{
         @apply --layout-vertical
       }
@@ -318,8 +118,7 @@ class LocationView extends ReduxMixin(PolymerElement) {
         </div>
       </div>
       <div class="map-container">
-        <iron-icon icon="custom:place" class="map-marker"></iron-icon>
-        <google-map class="flex" api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" on-google-map-ready="_mapReady" disable-map-type-control="" disable-street-view-control="" disable-full-screen-control="" drag-events="true" id="map" zoom="14" additional-map-options="{&quot;fullscreenControl&quot;:false,&quot;zoomControlOptions&quot;:{&quot;position&quot;:4}}" latitude="[[order.location.lat]]" longitude="[[order.location.lon]]"></google-map>
+        <google-map id="map"></google-map>
       </div>
     </div>
     <div class="bottom">
@@ -352,8 +151,8 @@ class LocationView extends ReduxMixin(PolymerElement) {
   _mapReady(){
     var config = {
         componentRestrictions: {country: 'ec'},
-      types:['geocode']
-      };
+        types:['geocode']
+    };
     var input = this.$.searchInput;
     input = new google.maps.places.Autocomplete(input,config);
     google.maps.event.addListener(input,'place_changed',()=>{
@@ -401,11 +200,13 @@ class LocationView extends ReduxMixin(PolymerElement) {
     redirect('/items')
   }
   nextPage(){
-    if(this.$.map.zoom>16){
-      this.dispatch('setLocation',this.$.map.latitude,this.$.map.longitude);
+    var location=this.$.map.getLocation();
+    if(!location)return message('Hubo un error cargando el mapa. Recarga la página.');
+    if(location.zoom>16){
+      this.dispatch('setLocation',location.lat,location.lon);
       redirect('/confirmation');
     }else{
-      console.log('Ubica más el mapa para seleccionar tu ubicación exacta');
+      message('Acerca más el mapa para seleccionar tu ubicación exacta');
     }
   }
 }

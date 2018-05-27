@@ -73,3 +73,29 @@ export const order = (state=initialOrder,action)=>{
       return state;
   }
 }
+
+const entities = (state={},action)=>{
+  switch (action.type) {
+    case 'UPDATE_ORDER':
+      return Object.assign({},state,{[action.id]:action.order});
+      break;
+    default:
+      return state;
+  }
+};
+
+export const oldOrders = (state={
+  loading:false,
+  entities:{}
+},action)=>{
+  switch (action.type) {
+    case 'SET_OLDORD_LOADING':
+      return Object.assign({},state,{loading:action.loading});
+      break;
+    case 'UPDATE_ORDER':
+      return Object.assign({},state,{entities:entities(state.entities,action)});
+      break;
+    default:
+      return state;
+  }
+}

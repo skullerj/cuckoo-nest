@@ -147,7 +147,7 @@ class ConfirmationView extends OrderActions(PolymerElement) {
         <div class="map">
           <div class="map-over"></div>
           <iron-icon icon="custom:place" class="map-marker"></iron-icon>
-          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control="" disable-street-view-control="" disable-full-screen-control="" drag-events="true" id="map" zoom="17" additional-map-options="{&quot;fullscreenControl&quot;:false,&quot;zoomControl&quot;:false}" latitude="[[order.location.lat]]" longitude="[[order.location.lon]]"></google-map>
+          
         </div>
         <div class="actions">
           <a href="/location">

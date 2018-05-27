@@ -1,11 +1,10 @@
 import { PolymerElement , html } from '@polymer/polymer/polymer-element.js';
 import {ReduxMixin} from '../redux/global-store.js';
+import FirebaseMixin from '../mixins/firebase-mixin.js';
 
-class ItemsData extends ReduxMixin(PolymerElement){
+class ItemsData extends FirebaseMixin(ReduxMixin(PolymerElement)){
   static get template() {
-    return html`
-
-`;
+    return html``;
   }
 
   static get is(){
@@ -42,6 +41,26 @@ class ItemsData extends ReduxMixin(PolymerElement){
         return {type:'LOAD_BUNDLES',bundles:bundles}
       }
     }
+  }
+  connectedCallback(){
+    super.connectedCallback();
+    this._setUpCollections();
+  }
+  _setUpCollections(){
+    this.db.collection('item').onSnapshot((snapshot)=>{
+      var items = {};
+      snapshot.forEach((doc)=>{
+        items[doc.id]=doc.data();
+      });
+      this.dispatch('loadItems',items);
+    });
+    this.db.collection('bundle').onSnapshot((snapshot)=>{
+      var bundles = {};
+      snapshot.forEach((doc)=>{
+        bundles[doc.id]=doc.data();
+      });
+      this.dispatch('loadBundles',bundles);
+    });
   }
   _observeItems(newVal){
     if(!newVal)return;

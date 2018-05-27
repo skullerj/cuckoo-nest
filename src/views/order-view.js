@@ -13,7 +13,6 @@ import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-spinner/paper-spinner-lite.js';
-import '../elements/order-info.js';
 import '../shared-styles.js';
 
 class OrderView extends PolymerElement {
@@ -69,7 +68,6 @@ class OrderView extends PolymerElement {
       }
     </style>
     <app-route route="{{route}}" pattern="/:id" data="{{data}}"></app-route>
-    <order-info order-id="[[orderId]]" order="{{order}}" id="orderInfo"></order-info>
     <iron-pages selected="[[order.state]]" attr-for-selected="state">
       <section state="new" class="vertical">
         <span class="title m1-y">Orden Recibida</span>
@@ -82,9 +80,7 @@ class OrderView extends PolymerElement {
         <span class="title">Orden Confirmada</span>
         <div class="map-card">
           <span class="p1 s-text">Espera la orden en el punto de entrega especificado. Nuestro repartidor te llamará cuando esté cerca.</span>
-          <google-map api-key="AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA" disable-map-type-control="" disable-street-view-control="" disable-full-screen-control="" zoom="17" additional-map-options="{&quot;fullscreenControl&quot;:false,&quot;zoomControlOptions&quot;:{&quot;position&quot;:4}}" latitude="[[order.location.lat]]" longitude="[[order.location.lon]]">
-            <google-map-marker latitude="[[order.location.lat]]" longitude="[[order.location.lon]]" draggable="false"></google-map-marker>
-          </google-map>
+          
         </div>
       </section>
       <section state="delivered" class="vertical">
@@ -134,34 +130,13 @@ class OrderView extends PolymerElement {
   }
   static get observers() {
     return [
-      '_orderIdChanged(data.id)','_orderRatingChanged(order.rating)'
+      '_orderIdChanged(data.id)'
     ];
   }
   _orderIdChanged(id){
     this.orderId=id||undefined;
   }
-  _orderRatingChanged(rating){
-    if(!rating)return;
-    if(rating==0){
-      this.orderRanked=false;
-      return;
-    }
-    if(rating>0){
-      this.loading=false;
-      this.orderRanked=true;
-      return;
-    }
-    this.loading=true;
-    this.$.orderInfo.orderRef.update({rating:rating})
-    .then((r)=>{
-      message('Gracias por tu comentario')
-      this.orderRanked=true;
-      this.loading=false;
-    })
-    .catch((e)=>{
-      this.loading=false;
-    })
-  }
+
 }
 
 window.customElements.define(OrderView.is, OrderView);

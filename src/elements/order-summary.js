@@ -62,8 +62,8 @@ class OrderSummary extends OrderActions(PolymerElement) {
             <div class="item">
               <paper-icon-button icon="custom:remove-circle" class="self-center" on-tap="removeItem"></paper-icon-button>
               <div class="vertical flex">
-                <span>[[item.info.name]]</span>
-                <span class="text-primary">X [[item.qty]]</span>
+                <span>[[item.name]]</span>
+                <span class="text-primary">[[item.price]]</span>
               </div>
             </div>
           </template>
@@ -71,8 +71,8 @@ class OrderSummary extends OrderActions(PolymerElement) {
             <div class="item">
               <paper-icon-button icon="custom:remove-circle" class="self-center" on-tap="removeBundle"></paper-icon-button>
               <div class="vertical flex">
-                <span>[[item.info.name]]</span>
-                <span class="text-primary">X [[item.qty]]</span>
+                <span>[[item.name]]</span>
+                <span class="text-primary">[[item.price]]</span>
               </div>
             </div>
           </template>
@@ -113,10 +113,10 @@ class OrderSummary extends OrderActions(PolymerElement) {
     }
   }
   removeItem(e){
-    this.dispatch('removeItem',e.model.__data.item.info.__id__);
+    this.dispatch('removeItem',e.model.__data.item.id);
   }
   removeBundle(e){
-    this.dispatch('removeBundle',e.model.__data.item.info.__id__);
+    this.dispatch('removeBundle',e.model.__data.item.id);
   }
 }
 customElements.define(OrderSummary.is,OrderSummary);

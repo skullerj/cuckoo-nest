@@ -91,7 +91,7 @@ class ItemCard extends ReduxMixin(PolymerElement) {
     }
   }
   addItem(){
-    this.dispatch('addItem',this.item.__id__);
+    this.dispatch('addItem',this.item.id);
   }
   _watchPhoto(photo){
     this.shadowRoot.querySelector('.image').style.backgroundImage=`url('${photo}')`;

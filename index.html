@@ -86,6 +86,45 @@
     <!-- Load your application shell -->
     <script type="module" src="/src/chup-app.js"></script>
 
+    <!-- Firebase components -->
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
+    <script>
+      const firebaseConfig = {
+        prod:{
+          apiKey: "AIzaSyDYnUpB1FcnU7jmr6cvIkp8_YM9QlPufGQ",
+          authDomain: "chupemos-193122.firebaseapp.com",
+          databaseURL: "https://chupemos-193122.firebaseio.com",
+          projectId: "chupemos-193122",
+          storageBucket: "chupemos-193122.appspot.com",
+          messagingSenderId: "760631908691"
+        },
+        test:{
+          apiKey: "AIzaSyC2Bzmix1jIP3jBLxM8QMvN1YkR23y8ZIo",
+          authDomain: "chupemos-stag.firebaseapp.com",
+          databaseURL: "https://chupemos-stag.firebaseio.com",
+          projectId: "chupemos-stag",
+          storageBucket: "chupemos-stag.appspot.com",
+          messagingSenderId: "480039852111"
+        }
+      };
+      var config = firebaseConfig['test'];
+      if(window.location.hostname==='chupemos.com'){
+        config = firebaseConfig['prod'];
+      }
+      firebase.initializeApp(config);
+    </script>
+
+    <script>
+      window.AppGlobals.mapsLoaded=false;
+      function initMap(){
+        window.AppGlobals.mapsLoaded=true;
+        window.dispatchEvent(new CustomEvent('map-loaded'));
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA&callback=initMap"></script>
+
     <!-- Add any global styles for body, document, etc. -->
     <style>
       body {
