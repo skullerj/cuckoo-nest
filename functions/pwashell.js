@@ -48,13 +48,13 @@ const pwaShell = function(opts) {
       <meta name="msapplication-tap-highlight" content="no">
 
       <script>
-        window.Polymer = {rootPath: '/'};
+        window.AppGlobals = {rootPath: '/'};
 
         // Load and register pre-caching Service Worker
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', function() {
             navigator.serviceWorker.register('service-worker.js', {
-              scope: Polymer.rootPath,
+              scope: AppGlobals.rootPath,
             });
           });
         }
@@ -75,10 +75,62 @@ const pwaShell = function(opts) {
       </script>
 
       <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-      <script src="/bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+      <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+      <script>
+        //Define this variable so redux import works
+        const process={env:{NODE_ENV:null}};
+        //Commonly used functions that will be useful all arround the app
+        function redirect(location){
+          window.history.pushState({}, null, location);
+          window.dispatchEvent(new CustomEvent('location-changed'));
+        }
+        function message(message,duration){
+          window.dispatchEvent(new CustomEvent('show-message',{detail:{message:message,duration:duration}}));
+        }
+      </script>
 
       <!-- Load your application shell -->
-      <link rel="import" href="/src/chup-app.html">
+      <script type="module" src="/src/chup-app.js"></script>
+
+      <!-- Firebase components -->
+      <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
+      <script>
+        const firebaseConfig = {
+          prod:{
+            apiKey: "AIzaSyDYnUpB1FcnU7jmr6cvIkp8_YM9QlPufGQ",
+            authDomain: "chupemos-193122.firebaseapp.com",
+            databaseURL: "https://chupemos-193122.firebaseio.com",
+            projectId: "chupemos-193122",
+            storageBucket: "chupemos-193122.appspot.com",
+            messagingSenderId: "760631908691"
+          },
+          test:{
+            apiKey: "AIzaSyC2Bzmix1jIP3jBLxM8QMvN1YkR23y8ZIo",
+            authDomain: "chupemos-stag.firebaseapp.com",
+            databaseURL: "https://chupemos-stag.firebaseio.com",
+            projectId: "chupemos-stag",
+            storageBucket: "chupemos-stag.appspot.com",
+            messagingSenderId: "480039852111"
+          }
+        };
+        var config = firebaseConfig['test'];
+        if(window.location.hostname==='chupemos.com'){
+          config = firebaseConfig['prod'];
+        }
+        firebase.initializeApp(config);
+      </script>
+
+      <script>
+        window.AppGlobals.mapsLoaded=false;
+        function initMap(){
+          window.AppGlobals.mapsLoaded=true;
+          window.dispatchEvent(new CustomEvent('map-loaded'));
+        }
+      </script>
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9-te1IhrZw3c-eH-Cl_Toct5XEaI5OAA&libraries=places&callback=initMap"></script>
 
       <!-- Add any global styles for body, document, etc. -->
       <style>
@@ -105,7 +157,7 @@ const pwaShell = function(opts) {
       <!-- Built with love using Polymer Starter Kit -->
     </body>
   </html>
-  `;
+`;
 }
 
 module.exports = pwaShell;
