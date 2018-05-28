@@ -13,9 +13,10 @@ import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-spinner/paper-spinner-lite.js';
+import {ReduxMixin} from '../redux/global-store.js';
 import '../shared-styles.js';
 
-class OrderView extends PolymerElement {
+class OrderView extends ReduxMixin(PolymerElement) {
   static get template() {
     return html`
     <style include="shared-styles">
@@ -80,18 +81,17 @@ class OrderView extends PolymerElement {
         <span class="title">Orden Confirmada</span>
         <div class="map-card">
           <span class="p1 s-text">Espera la orden en el punto de entrega especificado. Nuestro repartidor te llamará cuando esté cerca.</span>
-          
         </div>
       </section>
       <section state="delivered" class="vertical">
         <span class="title">Orden Entregada</span>
         <div class="card">
-          <div class="vertical text-center" hidden\$="[[orderRanked]]">
+          <div class="vertical text-center" hidden$="[[orderRanked]]">
             <span class="s-text">Gracias por utilizar nuestro servicio. Por favor ayúdanos calificando tu experiencia.</span>
-            <star-rating rating="{{order.rating}}" hidden\$="[[loading]]" class="m1-y"></star-rating>
-            <paper-spinner-lite active="" hidden\$="[[!loading]]" class="self-center"></paper-spinner-lite>
+            <star-rating rating="{{order.rating}}" hidden$="[[loading]]" class="m1-y"></star-rating>
+            <paper-spinner-lite active="" hidden$="[[!loading]]" class="self-center"></paper-spinner-lite>
           </div>
-          <div class="vertical text-center" hidden\$="[[!orderRanked]]">
+          <div class="vertical text-center" hidden$="[[!orderRanked]]">
             <span class="s-text">¡Gracias!</span>
             <span class="s-text "> Tus comentarios nos ayudan a mejorar :)</span>
             <span class="s-text self-center m1-y greetings">¡Feliz chupe!</span>
@@ -114,10 +114,18 @@ class OrderView extends PolymerElement {
   static get is() { return 'order-view'; }
   static get properties(){
     return{
-      orderId:{
-        type:String
+      order:{
+        type:Object,
+        statePath:(state)=>{
+          return state.oldOrders.entities[state.oldOrders.selectedOrder];
+        }
       },
-      order:Object,
+      orderId:{
+        type:Object,
+        statePath:(state)=>{
+          return state.oldOrders.selectedOrder;
+        }
+      },
       orderRanked:{
         type:Boolean,
         value:false
@@ -128,13 +136,22 @@ class OrderView extends PolymerElement {
       }
     }
   }
+  static get actions(){
+    return{
+      selectOrder:(id)=>{
+        return {type:'SELECT_ORDER',orderId:id};
+      }
+    }
+  }
   static get observers() {
     return [
       '_orderIdChanged(data.id)'
     ];
   }
   _orderIdChanged(id){
-    this.orderId=id||undefined;
+    if(id){
+      this.dispatch('selectOrder',id);
+    }
   }
 
 }

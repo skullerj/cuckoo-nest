@@ -13,6 +13,7 @@ import '@polymer/paper-input/paper-input.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-spinner/paper-spinner-lite.js';
 import {OrderActions} from '../redux/actions/order-actions.js';
+import '../elements/google-map.js';
 import '../shared-styles.js';
 class ConfirmationView extends OrderActions(PolymerElement) {
   static get template() {
@@ -55,15 +56,6 @@ class ConfirmationView extends OrderActions(PolymerElement) {
         position: absolute;
         z-index: 10;
       }
-      div.info-item .map iron-icon.map-marker{
-        position: absolute;
-        top: calc(50% - 20px);
-        left: calc(50% - 20px);
-        color: var(--primary-color);
-        height: 40px;
-        width: 40px;
-        z-index: 10;
-      }
       span.info-title{
         @apply --paper-font-title;
         color: var(--primary-color);
@@ -76,21 +68,6 @@ class ConfirmationView extends OrderActions(PolymerElement) {
       }
       paper-spinner-lite{
         --paper-spinner-color:var(--primary-color);
-      }
-      input{
-        background-color : var(--secondary-color);
-        box-sizing: border-box;
-        border-radius: 4px;
-        width: 100%;
-        padding-right: 16px;
-        padding-left: 20px;
-        line-height: 40px;
-        border: none;
-        margin: 0;
-        font-size: 16px;
-        -webkit-appearance: none;
-        text-align: center;
-        color: var(--on-secondary-text-color);
       }
     </style>
     <div class="outer">
@@ -109,7 +86,7 @@ class ConfirmationView extends OrderActions(PolymerElement) {
           </div>
         </div>
         <div class="info" hidden\$="[[!phoneEditing]]">
-          <input placeholder="Número de Celular" type="text" class="m2-y">
+          <phone-input></phone-input>
         </div>
         <div class="actions">
           <paper-button class="primary" on-tap="_editPhone" hidden\$="[[phoneEditing]]">Cambiar</paper-button>
@@ -122,16 +99,16 @@ class ConfirmationView extends OrderActions(PolymerElement) {
           <div class="items">
             <template is="dom-repeat" items="[[orderItems]]">
               <div class="item">
-                <span>[[item.info.name]]</span>
+                <span>[[item.name]]</span>
                 <div class="flex"></div>
-                <span class="text-primary">X [[item.qty]]</span>
+                <span class="text-primary">$ [[item.price]]</span>
               </div>
             </template>
             <template is="dom-repeat" items="[[orderBundles]]">
               <div class="item">
-                <span>[[item.info.name]]</span>
+                <span>[[item.name]]</span>
                 <div class="flex"></div>
-                <span class="text-primary">X [[item.qty]]</span>
+                <span class="text-primary">$ [[item.price]]</span>
               </div>
             </template>
           </div>
@@ -146,8 +123,7 @@ class ConfirmationView extends OrderActions(PolymerElement) {
       <div class="info-item">
         <div class="map">
           <div class="map-over"></div>
-          <iron-icon icon="custom:place" class="map-marker"></iron-icon>
-          
+          <google-map></google-map>
         </div>
         <div class="actions">
           <a href="/location">
@@ -184,8 +160,8 @@ class ConfirmationView extends OrderActions(PolymerElement) {
   }
   static get actions(){
     return{
-      addPendant:function(orderId){
-        return {type:'ADD_PENDANT_ORDER',order:orderId}
+      setOrder:function(id,order){
+        return {type:'UPDATE_ORDER',id:id,order:order};
       },
       resetOrder:function(){
         return {type:'RESET_ORDER'};
@@ -200,7 +176,7 @@ class ConfirmationView extends OrderActions(PolymerElement) {
     .then((docRef)=>{
         this.loading=false;
         redirect('/order/'+docRef.id);
-        this.dispatch('addPendant',docRef.id);
+        this.dispatch('setOrder',docRef.id,order);
         this.dispatch('resetOrder')
         console.log("Document written with ID: ", docRef.id);
     })

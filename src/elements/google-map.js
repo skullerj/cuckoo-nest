@@ -274,6 +274,7 @@ class GoogleMap extends PolymerElement {
       center: center,
       styles: mapStyles
     });
+    this.dispatchEvent(new CustomEvent('map-ready'));
   }
   _watchLatLon(lat,lon){
     if(!lat||!lon)return;

@@ -118,7 +118,7 @@ class LocationView extends ReduxMixin(PolymerElement) {
         </div>
       </div>
       <div class="map-container">
-        <google-map id="map"></google-map>
+        <google-map id="map" on-map-ready="_mapReady"></google-map>
       </div>
     </div>
     <div class="bottom">
@@ -148,6 +148,10 @@ class LocationView extends ReduxMixin(PolymerElement) {
       }
     }
   }
+   connectedCallback(){
+     super.connectedCallback();
+
+   }
   _mapReady(){
     var config = {
         componentRestrictions: {country: 'ec'},
@@ -156,20 +160,14 @@ class LocationView extends ReduxMixin(PolymerElement) {
     var input = this.$.searchInput;
     input = new google.maps.places.Autocomplete(input,config);
     google.maps.event.addListener(input,'place_changed',()=>{
-            var place = input.getPlace();
+      var place = input.getPlace();
       if(!place.geometry){
         return console.log('No hay la ubicación');
       }
-      this.$.map.latitude=place.geometry.location.lat();
-      this.$.map.longitude=place.geometry.location.lng();
-		    });
-    this.$.map.map.mapTypes.set('styled_map',new google.maps.StyledMapType(mapStyles));
-    this.$.map.map.setMapTypeId('styled_map');
-  }
-  _setPosition(position){
-    this.$.map.latitude=position.coords.latitude;
-    this.$.map.longitude=position.coords.longitude;
-    this.loading=false;
+      this.$.map.lat=place.geometry.location.lat();
+      this.$.map.lon=place.geometry.location.lng();
+		});
+
   }
   _handlePositioningError(error){
     switch(error.code){

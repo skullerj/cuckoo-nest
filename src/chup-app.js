@@ -28,7 +28,6 @@ import './elements/order-summary.js';
 import './my-icons.js';
 import {ReduxMixin} from './redux/global-store.js';
 import './elements/localstorage-manager.js';
-import './elements/client-info.js';
 import './elements/items-data.js';
 import './elements/orders-data.js';
 import './views/start-view.js';
@@ -191,12 +190,6 @@ class ChupApp extends ReduxMixin(PolymerElement) {
     window.addEventListener('show-message',(e)=>{
       this._showMessage(e.detail.message,e.detail.duration);
     });
-
-
-    // var clientInfo=document.createElement('client-info');
-    // this.appendChild(clientInfo);
-    // var itemsData=document.createElement('items-data');
-    // this.appendChild(itemsData);
   }
 
   _routePageChanged(page) {

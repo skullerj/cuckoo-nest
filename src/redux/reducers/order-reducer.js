@@ -86,11 +86,15 @@ const entities = (state={},action)=>{
 
 export const oldOrders = (state={
   loading:false,
+  selectedOrder:null,
   entities:{}
 },action)=>{
   switch (action.type) {
     case 'SET_OLDORD_LOADING':
       return Object.assign({},state,{loading:action.loading});
+      break;
+    case 'SELECT_ORDER':
+      return Object.assign({},state,{selectedOrder:action.orderId});
       break;
     case 'UPDATE_ORDER':
       return Object.assign({},state,{entities:entities(state.entities,action)});
